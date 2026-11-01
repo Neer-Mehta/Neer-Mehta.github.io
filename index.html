@@ -1,105 +1,159 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>Neer Mehta</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Neer Mehta: applied mathematics and AI at Cornell. Barry Goldwater Scholar 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Geist:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;450;500;600&display=swap">
 
 <style>
-/* Layout: one narrow column; the home list opens into short detail pages via hash */
 :root {
-  --bg: #f6f5f1;
+  --bg: #fbfaf8;
   --fg: #17181c;
-  --fg-2: #5a5c63;
-  --fg-3: #96979c;
-  --line: #e0dfd7;
-  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
-  --sans: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fg-2: #55575e;
+  --fg-3: #92939a;
+  --line: #e6e4de;
+  --serif: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ease: cubic-bezier(.2, .7, .2, 1);
   color-scheme: light;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg); color: var(--fg);
-  font-family: var(--sans); font-size: 15px; line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  padding-left: max(24px, env(safe-area-inset-left, 0px));
-  padding-right: max(24px, env(safe-area-inset-right, 0px));
-}
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.65; font-feature-settings: 'cv11', 'ss03'; -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
-:focus-visible { outline: 1px solid var(--fg); outline-offset: 3px; }
-.col { max-width: 640px; margin: 0 auto; }
+:focus-visible { outline: 1.5px solid var(--fg); outline-offset: 3px; border-radius: 3px; }
+.col { max-width: 700px; margin: 0 auto; padding: 0 24px; }
 
-header.bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 28px; font-size: .86rem; }
-header.bar .name { font-weight: 500; }
-header.bar .ext { display: flex; gap: 18px; color: var(--fg-3); flex-wrap: wrap; justify-content: flex-end; }
-header.bar .ext a:hover { color: var(--fg); }
-.ext a, .bar .name { transition: color .15s; }
+/* Sticky header with scroll-spy */
+header.bar { position: sticky; top: 0; z-index: 20; background: rgba(251,250,248,.82); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid transparent; transition: border-color .25s; }
+header.bar.scrolled { border-bottom-color: var(--line); }
+header.bar .col { display: flex; justify-content: space-between; align-items: center; gap: 20px; height: 60px; font-size: .86rem; }
+.bar .name { font-family: var(--serif); font-size: 1.3rem; letter-spacing: -.01em; white-space: nowrap; }
+.bar nav { display: flex; gap: 4px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+.bar nav::-webkit-scrollbar { display: none; }
+.bar nav a { position: relative; padding: 6px 10px; color: var(--fg-3); white-space: nowrap; transition: color .2s; }
+.bar nav a::after { content: ''; position: absolute; left: 10px; right: 10px; bottom: 2px; height: 1px; background: var(--fg); transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease); }
+.bar nav a:hover, .bar nav a.active { color: var(--fg); }
+.bar nav a.active::after, .bar nav a:hover::after { transform: scaleX(1); }
+.bar .ext { display: flex; gap: 4px; padding-left: 12px; border-left: 1px solid var(--line); }
+.bar .ext a { padding: 6px 8px; color: var(--fg-3); transition: color .2s; }
+.bar .ext a:hover { color: var(--fg); }
 
-.view { display: none; padding-bottom: 72px; }
-.view.on { display: block; animation: in .3s ease both; }
-@keyframes in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+.view { display: none; padding-bottom: 96px; }
+.view.on { display: block; }
 
-.hero { padding-block: 48px 40px; }
-h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.8rem, 11vw, 4.2rem); line-height: 1; letter-spacing: -.025em; margin-bottom: 22px; }
-.hero .sub { font-family: var(--serif); font-size: 1.25rem; line-height: 1.5; color: var(--fg-2); max-width: 28em; margin-bottom: 22px; }
-.badge { display: inline-block; font-size: .8rem; font-weight: 500; padding: 5px 14px; margin-bottom: 22px; border: 1px solid var(--fg); border-radius: 999px; transition: background .15s, color .15s; }
-.badge:hover { background: var(--fg); color: var(--bg); }
-.hero .meta { font-size: .9rem; color: var(--fg); margin-top: 6px; }
+/* Hero */
+.hero { padding-block: 72px 36px; }
+.hero > * { opacity: 0; transform: translateY(14px); animation: rise .8s var(--ease) forwards; }
+.hero > :nth-child(1) { animation-delay: .05s; } .hero > :nth-child(2) { animation-delay: .15s; }
+.hero > :nth-child(3) { animation-delay: .25s; } .hero > :nth-child(4) { animation-delay: .35s; } .hero > :nth-child(5) { animation-delay: .42s; }
+@keyframes rise { to { opacity: 1; transform: none; } }
+.badge { display: inline-block; font-size: .78rem; font-weight: 500; padding: 5px 14px; margin-bottom: 26px; border: 1px solid var(--fg); border-radius: 999px; background: #fff; transition: background .2s, color .2s, transform .2s var(--ease); }
+.badge:hover { background: var(--fg); color: var(--bg); transform: translateY(-1px); }
+h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(3.6rem, 14vw, 6rem); line-height: .95; letter-spacing: -.02em; margin-bottom: 26px; }
+.hero .sub { font-family: var(--serif); font-size: 1.55rem; line-height: 1.35; color: var(--fg-2); max-width: 24em; margin-bottom: 26px; }
+.hero .meta { font-size: .9rem; margin-top: 6px; }
 .hero .meta span { color: var(--fg-3); }
 
-.group { padding-top: 36px; margin-top: 12px; }
-.group h2 { font-size: .8rem; font-weight: 400; color: var(--fg-3); margin-bottom: 8px; }
-.item { display: flex; gap: 16px; align-items: center; padding-block: 14px; border-top: 1px solid var(--line); }
-.group .item:first-of-type { border-top: 0; }
+/* Sections */
+.group { padding-top: 44px; margin-top: 16px; }
+.group h2 { font-size: .74rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 10px; }
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s var(--ease), transform .6s var(--ease); transition-delay: var(--d, 0s); }
+.reveal.in { opacity: 1; transform: none; }
+
+.item { position: relative; display: flex; gap: 16px; align-items: center; padding: 16px 14px; margin-inline: -14px; border-radius: 10px; transition: background .25s; }
+.item::before { content: ''; position: absolute; top: 0; left: 14px; right: 14px; height: 1px; background: var(--line); }
+.group h2 + .item::before { display: none; }
+a.item:hover { background: #fff; }
 .item .main { flex: 1; min-width: 0; }
 .item .t { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
-.item .t b { font-weight: 500; transition: transform .2s; }
-.item .t small { font-size: .78rem; color: var(--fg-3); white-space: nowrap; }
+.item .t b { font-weight: 550; letter-spacing: -.005em; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .35s var(--ease); }
+a.item:hover .t b { background-size: 100% 1px; }
+.item .t small { font-size: .76rem; color: var(--fg-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .item p { color: var(--fg-2); font-size: .9rem; margin-top: 2px; max-width: 34em; }
-.item:hover .t b { transform: translateX(3px); }
 .item .role { color: var(--fg); font-weight: 500; }
-.item .thumb { width: 72px; height: 56px; object-fit: cover; border: 1px solid var(--line); border-radius: 4px; flex-shrink: 0; background: #fff; }
-.item.static .t b { font-weight: 400; }
-.item.static:hover .t b { transform: none; }
+.item .go { color: var(--fg-3); opacity: 0; transform: translateX(-6px); transition: opacity .25s, transform .3s var(--ease); flex-shrink: 0; }
+a.item:hover .go { opacity: 1; transform: none; }
+.item .thumb { width: 84px; height: 62px; object-fit: cover; border: 1px solid var(--line); border-radius: 6px; flex-shrink: 0; background: #fff; transition: transform .4s var(--ease), box-shadow .4s; }
+a.item:hover .thumb { transform: scale(1.04); box-shadow: 0 6px 18px -8px rgba(0,0,0,.25); }
+.item.static .t b { font-weight: 400; background: none; }
 
-.back { display: inline-block; font-size: .84rem; color: var(--fg-3); margin: 24px 0 26px; transition: color .15s; }
-.back:hover { color: var(--fg); }
-.detail h2 { font-family: var(--serif); font-weight: 400; font-size: 1.8rem; line-height: 1.2; letter-spacing: -.01em; }
-.detail .when { font-size: .84rem; color: var(--fg-3); margin: 4px 0 20px; }
-.detail .where { font-size: .9rem; color: var(--fg-2); margin-bottom: 18px; }
+/* Detail pages */
+.detail { padding-top: 20px; }
+.detail > * { opacity: 0; transform: translateY(10px); animation: rise .6s var(--ease) forwards; }
+.detail > :nth-child(2) { animation-delay: .04s; } .detail > :nth-child(3) { animation-delay: .08s; } .detail > :nth-child(4) { animation-delay: .12s; }
+.detail > :nth-child(n+5) { animation-delay: .18s; }
+.back { display: inline-flex; gap: 8px; font-size: .84rem; color: var(--fg-3); margin: 20px 0 28px; transition: color .2s; }
+.back span { transition: transform .3s var(--ease); }
+.back:hover { color: var(--fg); } .back:hover span { transform: translateX(-4px); }
+.detail h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 7vw, 3.1rem); line-height: 1.05; letter-spacing: -.015em; }
+.detail .when { font-size: .8rem; color: var(--fg-3); margin: 10px 0 4px; font-variant-numeric: tabular-nums; }
+.detail .where { font-size: .9rem; color: var(--fg-2); margin-bottom: 22px; }
 .detail p { color: var(--fg-2); max-width: 34em; margin-bottom: 14px; }
-.detail p.first { color: var(--fg); }
-.figs { display: grid; gap: 22px; margin-top: 28px; }
-.fig img { display: block; width: 100%; height: auto; max-height: 460px; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 4px; }
-.fig figcaption { font-size: .8rem; color: var(--fg-3); margin-top: 8px; max-width: 36em; }
-.links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 28px; font-size: .9rem; }
-.links a { border-bottom: 1px solid var(--line); transition: border-color .15s; }
+.detail p.first { color: var(--fg); font-size: 1.05rem; }
+.figs { display: grid; gap: 24px; margin-top: 30px; }
+.fig img { display: block; width: 100%; height: auto; max-height: 480px; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+.fig figcaption { font-size: .8rem; color: var(--fg-3); margin-top: 8px; max-width: 38em; }
+.links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 28px; font-size: .9rem; }
+.links a { border-bottom: 1px solid var(--line); transition: border-color .2s; }
 .links a:hover { border-color: var(--fg); }
+.pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .86rem; }
+.pager a { display: block; max-width: 48%; color: var(--fg-3); transition: color .2s; }
+.pager a:hover { color: var(--fg); }
+.pager a small { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+.pager a b { display: block; font-weight: 500; color: var(--fg); }
+.pager .next { margin-left: auto; text-align: right; }
 
-@media (max-width: 560px) { .item .t { flex-direction: column; gap: 0; } .item .thumb { width: 56px; height: 48px; } }
-@media (prefers-reduced-motion: reduce) { .view.on { animation: none; } * { transition: none !important; } }
+footer { padding: 36px 0 48px; margin-top: 24px; border-top: 1px solid var(--line); font-size: .78rem; color: var(--fg-3); display: flex; justify-content: space-between; gap: 16px; }
+footer a:hover { color: var(--fg); }
+
+@media (max-width: 600px) {
+  .bar .ext { display: none; }
+  .bar nav { margin-left: 0; }
+  header.bar .col { gap: 8px; }
+  .item .t { flex-direction: column; gap: 0; }
+  .item .thumb { width: 60px; height: 48px; }
+  .item .go { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero > *, .detail > *, .reveal { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+  * { transition-duration: .01ms !important; }
+}
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }
 </style>
+</head>
+<body>
 
-<div class="col">
-  <header class="bar">
+<header class="bar" id="bar">
+  <div class="col">
     <a class="name" href="#home">Neer Mehta</a>
+    <nav aria-label="Sections" id="nav"></nav>
     <div class="ext">
-      <a href="https://scholar.google.com/citations?user=PanlUGoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Scholar</a>
+      <a href="https://scholar.google.com/citations?user=PanlUGoAAAAJ&hl=en" target="_blank" rel="noopener">Scholar</a>
       <a href="https://www.linkedin.com/in/neer-mehta" target="_blank" rel="noopener">LinkedIn</a>
       <a href="mailto:nmm229@cornell.edu">Email</a>
     </div>
-  </header>
+  </div>
+</header>
 
+<div class="col">
   <main>
     <section class="view" id="home" aria-label="Home">
       <div class="hero">
-        <a class="badge" href="https://goldwaterscholarship.gov" target="_blank" rel="noopener">Barry Goldwater Scholar · 2026 ↗</a>
+        <div><a class="badge" href="https://goldwaterscholarship.gov" target="_blank" rel="noopener">Barry Goldwater Scholar · 2026 ↗</a></div>
         <h1>Neer Mehta</h1>
         <p class="sub">Applied mathematics and AI at Cornell. I use probability and dynamical systems to study how complex systems behave, from language models to markets.</p>
-        <p class="meta"><span>Interests:</span> AI safety, stochastic processes, dynamical systems, quantitative finance</p>
+        <p class="meta"><span>Research interests:</span> AI, dynamical systems, stochastic processes, quantitative finance, chaos theory</p>
         <p class="meta"><span>Outside of class:</span> Formula 1, tennis, chess, piano</p>
       </div>
       <div id="lists"></div>
+      <footer><span>© Neer Mehta</span><a href="#home" id="top">Back to top ↑</a></footer>
     </section>
     <section class="view detail" id="detail" aria-label="Detail"></section>
   </main>
@@ -176,34 +230,78 @@ const SECTIONS = [
   ] }
 ];
 
-const byId = {}; SECTIONS.forEach(s => s.items.forEach(i => { if (i.id) byId[i.id] = Object.assign({ sec: s.name }, i); }));
+const byId = {}; const detailIds = [];
+SECTIONS.forEach(s => s.items.forEach(i => { if (i.id) { byId[i.id] = Object.assign({ sec: s.name }, i); if (!i.href) detailIds.push(i.id); } }));
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const slug = s => 'sec-' + s.toLowerCase();
+
+/* Nav shows the main sections only */
+const NAV = ['Research', 'Papers', 'Work', 'Projects'];
+document.getElementById('nav').innerHTML = NAV.map(n => `<a href="#${slug(n)}" data-sec="${slug(n)}">${n}</a>`).join('');
 
 document.getElementById('lists').innerHTML = SECTIONS.map(s =>
-  `<div class="group"><h2>${s.name}</h2>` + s.items.map(i => {
-    if (s.static || (!i.href && !i.body)) return `<div class="item static"><div class="main"><div class="t"><b>${esc(i.title)}</b></div></div></div>`;
+  `<section class="group" id="${slug(s.name)}"><h2 class="reveal">${s.name}</h2>` + s.items.map((i, k) => {
+    const d = `style="--d:${Math.min(k, 6) * 0.06}s"`;
+    if (s.static || (!i.href && !i.body)) return `<div class="item static reveal" ${d}><div class="main"><div class="t"><b>${esc(i.title)}</b></div></div></div>`;
     const attrs = i.href ? `href="${esc(i.href)}" target="_blank" rel="noopener"` : `href="#${i.id}"`;
-    return `<a class="item" ${attrs}><div class="main"><div class="t"><b>${esc(i.title)}${i.href ? ' ↗' : ''}</b><small>${esc(i.when)}</small></div><p>${i.role ? `<span class="role">${esc(i.role)}</span> · ` : ''}${esc(i.blurb)}</p></div>${i.thumb ? `<img class="thumb" src="${esc(i.thumb)}" alt="" loading="lazy">` : ''}</a>`;
-  }).join('') + '</div>').join('');
+    return `<a class="item reveal" id="item-${i.id || ''}" ${attrs} ${d}><div class="main"><div class="t"><b>${esc(i.title)}</b><small>${esc(i.when)}</small></div><p>${i.role ? `<span class="role">${esc(i.role)}</span> · ` : ''}${esc(i.blurb)}</p></div>${i.thumb ? `<img class="thumb" src="${esc(i.thumb)}" alt="" loading="lazy">` : ''}<span class="go" aria-hidden="true">${i.href ? '↗' : '→'}</span></a>`;
+  }).join('') + '</section>').join('');
+
+/* Scroll reveal */
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }) : null;
+document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+
+/* Header border + scroll-spy */
+const bar = document.getElementById('bar'), links = [...document.querySelectorAll('#nav a')];
+function spy() {
+  bar.classList.toggle('scrolled', window.scrollY > 8);
+  if (!home.classList.contains('on')) { links.forEach(a => a.classList.remove('active')); return; }
+  let cur = null;
+  NAV.forEach(n => { const el = document.getElementById(slug(n)); if (el && el.getBoundingClientRect().top < window.innerHeight * 0.4) cur = slug(n); });
+  links.forEach(a => a.classList.toggle('active', a.dataset.sec === cur));
+}
+window.addEventListener('scroll', spy, { passive: true });
 
 const home = document.getElementById('home'), detail = document.getElementById('detail');
-function route() {
+let homeScroll = 0, lastDetail = null;
+
+function renderDetail(it) {
+  const idx = detailIds.indexOf(it.id), prev = byId[detailIds[idx - 1]], next = byId[detailIds[idx + 1]];
+  detail.innerHTML = `<a class="back" href="#home"><span>←</span> ${esc(it.sec)}</a><h2>${esc(it.title)}</h2><div class="when">${esc(it.when)}</div><div class="where">${esc(it.where)}</div>` +
+    it.body.map((p, k) => `<p class="${k === 0 ? 'first' : ''}">${esc(p)}</p>`).join('') +
+    (it.figs ? `<div class="figs">${it.figs.map(f => `<figure class="fig"><img src="${esc(f[0])}" alt="${esc(f[1])}"><figcaption>${esc(f[1])}</figcaption></figure>`).join('')}</div>` : '') +
+    (it.links ? `<div class="links">${it.links.map(l => `<a href="${esc(l[1])}" target="_blank" rel="noopener">${esc(l[0])} ↗</a>`).join('')}</div>` : '') +
+    `<div class="pager">${prev ? `<a class="prev" href="#${prev.id}"><small>← Previous</small><b>${esc(prev.title)}</b></a>` : '<span></span>'}${next ? `<a class="next" href="#${next.id}"><small>Next →</small><b>${esc(next.title)}</b></a>` : ''}</div>`;
+}
+
+function apply() {
   const h = (location.hash || '#home').slice(1), it = byId[h];
   if (it && !it.href) {
-    detail.innerHTML = `<a class="back" href="#home">← ${esc(it.sec)}</a><h2>${esc(it.title)}</h2><div class="when">${esc(it.when)}</div><div class="where">${esc(it.where)}</div>` +
-      it.body.map((p, k) => `<p class="${k === 0 ? 'first' : ''}">${esc(p)}</p>`).join('') +
-      (it.figs ? `<div class="figs">${it.figs.map(f => `<figure class="fig"><img src="${esc(f[0])}" alt="${esc(f[1])}"><figcaption>${esc(f[1])}</figcaption></figure>`).join('')}</div>` : '') +
-      (it.links ? `<div class="links">${it.links.map(l => `<a href="${esc(l[1])}" target="_blank" rel="noopener">${esc(l[0])} ↗</a>`).join('')}</div>` : '');
+    if (home.classList.contains('on')) homeScroll = window.scrollY;
+    renderDetail(it);
     home.classList.remove('on'); detail.classList.add('on');
     document.title = it.title + ' · Neer Mehta';
+    lastDetail = it.id;
+    window.scrollTo(0, 0);
   } else {
+    const wasDetail = detail.classList.contains('on');
     detail.classList.remove('on'); home.classList.add('on');
     document.title = 'Neer Mehta';
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+    if (h.startsWith('sec-') && document.getElementById(h)) document.getElementById(h).scrollIntoView();
+    else if (wasDetail && lastDetail && document.getElementById('item-' + lastDetail)) { window.scrollTo(0, homeScroll); }
+    else window.scrollTo(0, 0);
   }
-  window.scrollTo(0, 0);
+  spy();
+}
+function route() {
+  if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(apply);
+  else apply();
 }
 window.addEventListener('hashchange', route);
+/* Esc returns from a detail page */
+window.addEventListener('keydown', e => { if (e.key === 'Escape' && detail.classList.contains('on')) location.hash = '#home'; });
 route();
 </script>
-
-</body></html>
+</body>
+</html>
