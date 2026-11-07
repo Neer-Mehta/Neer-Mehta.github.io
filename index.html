@@ -30,6 +30,13 @@ a { color: inherit; text-decoration: none; }
 :focus-visible { outline: 1.5px solid var(--fg); outline-offset: 3px; border-radius: 3px; }
 .col { max-width: 700px; margin: 0 auto; padding: 0 24px; }
 
+/* Goldwater flag across the top */
+.flag { display: flex; justify-content: center; align-items: center; gap: 16px; padding: 10px 24px; background: #fff; border-bottom: 1px solid var(--line); font-family: 'Geist Mono', ui-monospace, Menlo, Consolas, monospace; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-2); transition: background .2s; }
+.flag:hover { background: var(--bg); }
+.flag img { display: block; height: 26px; width: auto; }
+.flag span { padding-left: 16px; border-left: 1px solid var(--line); }
+@media (max-width: 420px) { .flag img { height: 22px; } .flag { gap: 12px; } .flag span { padding-left: 12px; } }
+
 /* Sticky header with scroll-spy */
 header.bar { position: sticky; top: 0; z-index: 20; background: rgba(251,250,248,.82); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid transparent; transition: border-color .25s; }
 header.bar.scrolled { border-bottom-color: var(--line); }
@@ -132,6 +139,11 @@ footer a:hover { color: var(--fg); }
 </head>
 <body>
 
+<a class="flag" href="https://goldwaterscholarship.gov" target="_blank" rel="noopener" aria-label="Barry Goldwater Scholar, 2026">
+  <img src="img/goldwater-logo.svg" alt="Barry Goldwater Scholarship &amp; Excellence in Education Foundation">
+  <span>Scholar · 2026</span>
+</a>
+
 <header class="bar" id="bar">
   <div class="col">
     <a class="name" href="#home">Neer Mehta</a>
@@ -150,8 +162,9 @@ footer a:hover { color: var(--fg); }
       <div class="hero">
         <div><a class="badge" href="https://goldwaterscholarship.gov" target="_blank" rel="noopener">Barry Goldwater Scholar · 2026 ↗</a></div>
         <h1>Neer Mehta</h1>
-        <p class="sub">Applied mathematics and AI at Cornell. I use probability and dynamical systems to study how complex systems behave, from language models to markets.</p>
-        <p class="meta"><span>Research interests:</span> AI, dynamical systems, stochastic processes, quantitative finance, chaos theory</p>
+        <p class="sub">Applied Math and AI at Cornell.</p>
+        <p class="meta"><span>Academic interests:</span> probability, stochastic processes, nonlinear dynamics and chaos, RL</p>
+        <p class="meta"><span>Research interests:</span> applied math, AI</p>
         <p class="meta"><span>Outside of class:</span> Formula 1, tennis, chess, piano</p>
       </div>
       <div id="lists"></div>
