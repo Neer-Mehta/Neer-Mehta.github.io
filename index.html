@@ -55,6 +55,7 @@ h1 { font-size: 15px; font-weight: 500; line-height: 24px; }
 .page .desc { color: var(--fg-2); margin-bottom: 40px; }
 .back { display: inline-block; color: var(--fg-3); margin-bottom: 40px; transition: color .15s; }
 .back:hover { color: var(--fg); }
+.sub-label { color: var(--fg-3); margin: 48px 0 20px; }
 .list { display: flex; flex-direction: column; gap: 26px; }
 .entry { display: flex; gap: 16px; align-items: flex-start; }
 .entry .main { flex: 1; min-width: 0; }
@@ -114,14 +115,13 @@ footer svg { width: 20px; height: 20px; fill: currentColor; }
   <div class="col">
     <section class="view landing" id="home" aria-label="Home">
       <p>Hi, I'm Neer!</p>
-      <p>I study Applied Math and AI at Cornell. I was named a <a href="https://goldwaterscholarship.gov" target="_blank" rel="noopener">Goldwater Scholar</a> in 2026 and was a Chicago Trading Company Discovery Day Fellow.</p>
-      <p>I do <a href="#research">research</a> on AI safety with Prof. Lionel Levine, treating language models as Markov chains. <a href="https://arxiv.org/abs/2605.16378" target="_blank" rel="noopener">Our paper</a> is about how fast they mix and where they get stuck. Before that I worked on <a href="#meshes">adaptive mesh refinement</a> for PDE simulations at UW–Madison with Dr. Maurice Fabien, and published <a href="#raytracing">ray tracing of black holes and wormholes</a> with Prof. Bart Ripperda.</p>
-      <p>Professionally, I'm an AI Development Associate at <a href="#gennx360">GenNx360</a>, a private equity firm in New York, where I build investment theses and AI trackers for KPIs. I previously built an AI pipeline for food carbon footprints at <a href="#cals">Cornell CALS</a> and an AI testing copilot at <a href="#drizz">Drizz AI</a>. On the side I run a live prediction market <a href="#kalshi">trading bot</a>.</p>
-      <p class="meta">Academic interests: probability, stochastic processes, nonlinear dynamics and chaos, RL</p>
-      <p class="meta">Research interests: applied math, AI</p>
-      <p class="meta">Outside of class: Formula 1, tennis, chess, piano</p>
+      <p>I study Applied Math and AI at Cornell. I am a 2026 <a href="https://goldwaterscholarship.gov/" target="_blank" rel="noopener">Goldwater Scholar</a> in Mathematical Sciences.</p>
+      <p>I do <a href="#research">research</a> on AI alignment and safety with Prof. Lionel Levine. <a href="https://arxiv.org/abs/2605.16378" target="_blank" rel="noopener">Our paper</a> is about mixing times, metastable traps, and failures/biases in MLMs. Before that I worked on <a href="#meshes">adaptive mesh refinement</a> for PDE simulations at UW–Madison with Dr. Maurice Fabien, and published <a href="#raytracing">ray tracing of black holes and wormholes</a> with Prof. Bart Ripperda.</p>
+      <p>Professionally, I'm an AI Development Associate at <a href="#gennx360">GenNx360</a>, a private equity firm in New York, where I build investment theses and AI trackers for KPIs. I previously built an AI pipeline for food carbon footprints at <a href="#cals">Cornell CALS</a> and an AI testing copilot at <a href="#drizz">Drizz AI</a>.</p>
+      <p class="meta">Academic interests: AI Research in Alignment and Safety, Stochastic processes, Nonlinear Dynamics and Chaos, RL, Applied Math.</p>
+      <p class="meta">Outside of class: Formula 1, Tennis, Chess, Piano, Jazz</p>
       <p>I'm part of Cornell AI Alignment, Cornell Venture Capital, Cornell Poker Club, the Math+AI Lab and Long-term AI Research.</p>
-      <p>If any of this sounds interesting, feel free to reach out (see below)!</p>
+      <p>Feel free to reach out (see below)!</p>
     </section>
     <section class="view page" id="page" aria-label="Section"></section>
     <section class="view detail" id="detail" aria-label="Detail"></section>
@@ -217,8 +217,7 @@ const slug = s => s.toLowerCase();
 const secByName = n => SECTIONS.find(s => s.name === n);
 
 const PAGES = [
-  ['Research', 'Glauber dynamics on language models, black hole ray tracing, and adaptive meshes.'],
-  ['Papers', 'Preprints and publications.'],
+  ['Research', 'Glauber dynamics on language models, black hole ray tracing, adaptive meshes, and the papers that came out of them.'],
   ['Work', 'AI and investing at GenNx360, food-system modeling at Cornell CALS, and AI engineering at Drizz.'],
   ['Projects', 'Things I have built on my own.']
 ];
@@ -235,7 +234,8 @@ function entryHTML(i) {
 
 function renderPage(n) {
   const d = PAGES.find(p => p[0] === n)[1];
-  pagev.innerHTML = `<a class="back" href="#home">← Home</a><h1>${esc(n)}</h1><p class="desc">${esc(d)}</p><div class="list">${secByName(n).items.map(entryHTML).join('')}</div>`;
+  pagev.innerHTML = `<a class="back" href="#home">← Home</a><h1>${esc(n)}</h1><p class="desc">${esc(d)}</p><div class="list">${secByName(n).items.map(entryHTML).join('')}</div>` +
+    (n === 'Research' ? `<div class="sub-label">Papers</div><div class="list">${secByName('Papers').items.map(entryHTML).join('')}</div>` : '');
 }
 
 function renderDetail(it) {
@@ -250,7 +250,8 @@ function renderDetail(it) {
 function show(view) { [home, pagev, detail].forEach(v => v.classList.toggle('on', v === view)); }
 
 function apply() {
-  const h = (location.hash || '#home').slice(1), it = byId[h], pg = PAGES.find(p => slug(p[0]) === h);
+  let h = (location.hash || '#home').slice(1); if (h === 'papers') h = 'research';
+  const it = byId[h], pg = PAGES.find(p => slug(p[0]) === h);
   let sec = null;
   if (it && !it.href) { renderDetail(it); show(detail); sec = slug(it.sec); document.title = it.title + ' · Neer Mehta'; }
   else if (pg) { renderPage(pg[0]); show(pagev); sec = h; document.title = pg[0] + ' · Neer Mehta'; }
