@@ -59,7 +59,7 @@ header.bar .col { display: flex; justify-content: space-between; align-items: ce
 .hero { padding-block: 72px 36px; }
 .hero > * { opacity: 0; transform: translateY(14px); animation: rise .8s var(--ease) forwards; }
 .hero > :nth-child(1) { animation-delay: .05s; } .hero > :nth-child(2) { animation-delay: .15s; }
-.hero > :nth-child(3) { animation-delay: .25s; } .hero > :nth-child(4) { animation-delay: .35s; } .hero > :nth-child(5) { animation-delay: .42s; }
+.hero > :nth-child(3) { animation-delay: .25s; } .hero > :nth-child(4) { animation-delay: .35s; } .hero > :nth-child(5) { animation-delay: .42s; } .hero > :nth-child(6) { animation-delay: .5s; }
 @keyframes rise { to { opacity: 1; transform: none; } }
 .badge { display: inline-block; font-size: .78rem; font-weight: 500; padding: 5px 14px; margin-bottom: 26px; border: 1px solid var(--fg); border-radius: 999px; background: #fff; transition: background .2s, color .2s, transform .2s var(--ease); }
 .badge:hover { background: var(--fg); color: var(--bg); transform: translateY(-1px); }
@@ -100,7 +100,7 @@ a.item:hover .thumb { transform: scale(1.04); box-shadow: 0 6px 18px -8px rgba(0
 .back { display: inline-flex; gap: 8px; font-size: .84rem; color: var(--fg-3); margin: 20px 0 28px; transition: color .2s; }
 .back span { transition: transform .3s var(--ease); }
 .back:hover { color: var(--fg); } .back:hover span { transform: translateX(-4px); }
-.detail h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 7vw, 3.1rem); line-height: 1.05; letter-spacing: -.015em; }
+.detail h2, .pagev h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 7vw, 3.1rem); line-height: 1.05; letter-spacing: -.015em; }
 .detail .when { font-size: .8rem; color: var(--fg-3); margin: 10px 0 4px; font-variant-numeric: tabular-nums; }
 .detail .where { font-size: .9rem; color: var(--fg-2); margin-bottom: 22px; }
 .detail p { color: var(--fg-2); max-width: 34em; margin-bottom: 14px; }
@@ -118,6 +118,18 @@ a.item:hover .thumb { transform: scale(1.04); box-shadow: 0 6px 18px -8px rgba(0
 .pager a b { display: block; font-weight: 500; color: var(--fg); }
 .pager .next { margin-left: auto; text-align: right; }
 
+/* Landing pills + section pages */
+.pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.pill { display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; font-size: .82rem; font-weight: 500; border: 1px solid var(--line); background: #fff; transition: border-color .2s, opacity .2s; }
+.pill:hover { border-color: var(--fg-3); }
+.pill.dark { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.pill.dark:hover { opacity: .88; }
+.pagev { padding-top: 20px; }
+.pagev > * { opacity: 0; transform: translateY(10px); animation: rise .6s var(--ease) forwards; }
+.pagev > :nth-child(2) { animation-delay: .04s; } .pagev > :nth-child(3) { animation-delay: .08s; } .pagev > :nth-child(4) { animation-delay: .12s; }
+.pagev .lede { font-family: var(--serif); font-size: 1.4rem; line-height: 1.4; color: var(--fg-2); max-width: 26em; margin-top: 12px; }
+.pagev .group { padding-top: 24px; }
+
 footer { padding: 36px 0 48px; margin-top: 24px; border-top: 1px solid var(--line); font-size: .78rem; color: var(--fg-3); display: flex; justify-content: space-between; gap: 16px; }
 footer a:hover { color: var(--fg); }
 
@@ -131,7 +143,7 @@ footer a:hover { color: var(--fg); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hero > *, .detail > *, .reveal { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+  .hero > *, .detail > *, .pagev > *, .reveal { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
   * { transition-duration: .01ms !important; }
 }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }
@@ -165,10 +177,16 @@ footer a:hover { color: var(--fg); }
         <p class="meta"><span>Academic interests:</span> probability, stochastic processes, nonlinear dynamics and chaos, RL</p>
         <p class="meta"><span>Research interests:</span> applied math, AI</p>
         <p class="meta"><span>Outside of class:</span> Formula 1, tennis, chess, piano</p>
+        <div class="pills">
+          <a class="pill dark" href="mailto:nmm229@cornell.edu">nmm229@cornell.edu</a>
+          <a class="pill" href="https://scholar.google.com/citations?user=PanlUGoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Scholar ↗</a>
+          <a class="pill" href="https://www.linkedin.com/in/neer-mehta" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
       </div>
       <div id="lists"></div>
       <footer><span>© Neer Mehta</span><a href="#home" id="top">Back to top ↑</a></footer>
     </section>
+    <section class="view pagev" id="page" aria-label="Section"></section>
     <section class="view detail" id="detail" aria-label="Detail"></section>
   </main>
 </div>
@@ -247,74 +265,85 @@ const SECTIONS = [
 const byId = {}; const detailIds = [];
 SECTIONS.forEach(s => s.items.forEach(i => { if (i.id) { byId[i.id] = Object.assign({ sec: s.name }, i); if (!i.href) detailIds.push(i.id); } }));
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const slug = s => 'sec-' + s.toLowerCase();
+const slug = s => s.toLowerCase();
+const secByName = n => SECTIONS.find(s => s.name === n);
 
-/* Nav shows the main sections only */
-const NAV = ['Research', 'Papers', 'Work', 'Projects'];
-document.getElementById('nav').innerHTML = NAV.map(n => `<a href="#${slug(n)}" data-sec="${slug(n)}">${n}</a>`).join('');
+/* Section pages: name, one-line description */
+const PAGES = [
+  ['Research', 'Glauber dynamics on language models, black hole ray tracing, and adaptive meshes.'],
+  ['Papers', 'Preprints and publications.'],
+  ['Work', 'AI and investing at GenNx360, food-system modeling at Cornell CALS, and AI engineering at Drizz.'],
+  ['Projects', 'Things I have built on my own.']
+];
 
-document.getElementById('lists').innerHTML = SECTIONS.map(s =>
-  `<section class="group" id="${slug(s.name)}"><h2 class="reveal">${s.name}</h2>` + s.items.map((i, k) => {
-    const d = `style="--d:${Math.min(k, 6) * 0.06}s"`;
-    if (s.static || (!i.href && !i.body)) return `<div class="item static reveal" ${d}><div class="main"><div class="t"><b>${esc(i.title)}</b></div></div></div>`;
-    const attrs = i.href ? `href="${esc(i.href)}" target="_blank" rel="noopener"` : `href="#${i.id}"`;
-    return `<a class="item reveal" id="item-${i.id || ''}" ${attrs} ${d}><div class="main"><div class="t"><b>${esc(i.title)}</b><small>${esc(i.when)}</small></div><p>${i.role ? `<span class="role">${esc(i.role)}</span> · ` : ''}${esc(i.blurb)}</p></div>${i.thumb ? `<img class="thumb" src="${esc(i.thumb)}" alt="" loading="lazy">` : ''}<span class="go" aria-hidden="true">${i.href ? '↗' : '→'}</span></a>`;
-  }).join('') + '</section>').join('');
+document.getElementById('nav').innerHTML = PAGES.map(([n]) => `<a href="#${slug(n)}" data-sec="${slug(n)}">${n}</a>`).join('');
 
-/* Scroll reveal */
+function itemHTML(s, i, k, cls) {
+  const d = `style="--d:${Math.min(k, 6) * 0.06}s"`;
+  if (s.static || (!i.href && !i.body)) return `<div class="item static ${cls}" ${d}><div class="main"><div class="t"><b>${esc(i.title)}</b></div></div></div>`;
+  const attrs = i.href ? `href="${esc(i.href)}" target="_blank" rel="noopener"` : `href="#${i.id}"`;
+  return `<a class="item ${cls}" ${attrs} ${d}><div class="main"><div class="t"><b>${esc(i.title)}</b><small>${esc(i.when)}</small></div><p>${i.role ? `<span class="role">${esc(i.role)}</span> · ` : ''}${esc(i.blurb)}</p></div>${i.thumb ? `<img class="thumb" src="${esc(i.thumb)}" alt="" loading="lazy">` : ''}<span class="go" aria-hidden="true">${i.href ? '↗' : '→'}</span></a>`;
+}
+const groupHTML = (s, cls) => `<section class="group"><h2 class="${cls}">${s.name}</h2>` + s.items.map((i, k) => itemHTML(s, i, k, cls)).join('') + '</section>';
+
+/* Landing: index of pages, then honors and organizations */
+document.getElementById('lists').innerHTML =
+  `<section class="group"><h2 class="reveal">Explore</h2>` +
+  PAGES.map(([n, d], k) => `<a class="item reveal" href="#${slug(n)}" style="--d:${k * 0.06}s"><div class="main"><div class="t"><b>${n}</b><small>${secByName(n).items.length}</small></div><p>${esc(d)}</p></div><span class="go" aria-hidden="true">→</span></a>`).join('') +
+  '</section>' + ['Honors', 'Organizations'].map(n => groupHTML(secByName(n), 'reveal')).join('');
+
+/* Scroll reveal (landing) */
 const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }) : null;
 document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
 
-/* Header border + scroll-spy */
 const bar = document.getElementById('bar'), links = [...document.querySelectorAll('#nav a')];
-function spy() {
-  bar.classList.toggle('scrolled', window.scrollY > 8);
-  if (!home.classList.contains('on')) { links.forEach(a => a.classList.remove('active')); return; }
-  let cur = null;
-  NAV.forEach(n => { const el = document.getElementById(slug(n)); if (el && el.getBoundingClientRect().top < window.innerHeight * 0.4) cur = slug(n); });
-  links.forEach(a => a.classList.toggle('active', a.dataset.sec === cur));
-}
-window.addEventListener('scroll', spy, { passive: true });
+const home = document.getElementById('home'), pagev = document.getElementById('page'), detail = document.getElementById('detail');
+window.addEventListener('scroll', () => bar.classList.toggle('scrolled', window.scrollY > 8), { passive: true });
 
-const home = document.getElementById('home'), detail = document.getElementById('detail');
-let homeScroll = 0, lastDetail = null;
+function renderPage(n) {
+  const s = secByName(n), d = PAGES.find(p => p[0] === n)[1];
+  pagev.innerHTML = `<a class="back" href="#home"><span>←</span> Home</a><h2>${esc(n)}</h2><p class="lede">${esc(d)}</p><section class="group">` +
+    s.items.map((i, k) => itemHTML(s, i, k, 'reveal in')).join('') + '</section>';
+}
 
 function renderDetail(it) {
-  const idx = detailIds.indexOf(it.id), prev = byId[detailIds[idx - 1]], next = byId[detailIds[idx + 1]];
-  detail.innerHTML = `<a class="back" href="#home"><span>←</span> ${esc(it.sec)}</a><h2>${esc(it.title)}</h2><div class="when">${esc(it.when)}</div><div class="where">${esc(it.where)}</div>` +
+  const ids = detailIds.filter(id => byId[id].sec === it.sec), idx = ids.indexOf(it.id), prev = byId[ids[idx - 1]], next = byId[ids[idx + 1]];
+  detail.innerHTML = `<a class="back" href="#${slug(it.sec)}"><span>←</span> ${esc(it.sec)}</a><h2>${esc(it.title)}</h2><div class="when">${esc(it.when)}</div><div class="where">${esc(it.where)}</div>` +
     it.body.map((p, k) => `<p class="${k === 0 ? 'first' : ''}">${esc(p)}</p>`).join('') +
     (it.figs ? `<div class="figs">${it.figs.map(f => `<figure class="fig"><img src="${esc(f[0])}" alt="${esc(f[1])}"><figcaption>${esc(f[1])}</figcaption></figure>`).join('')}</div>` : '') +
     (it.links ? `<div class="links">${it.links.map(l => `<a href="${esc(l[1])}" target="_blank" rel="noopener">${esc(l[0])} ↗</a>`).join('')}</div>` : '') +
     `<div class="pager">${prev ? `<a class="prev" href="#${prev.id}"><small>← Previous</small><b>${esc(prev.title)}</b></a>` : '<span></span>'}${next ? `<a class="next" href="#${next.id}"><small>Next →</small><b>${esc(next.title)}</b></a>` : ''}</div>`;
 }
 
+function show(view) { [home, pagev, detail].forEach(v => v.classList.toggle('on', v === view)); }
+
 function apply() {
-  const h = (location.hash || '#home').slice(1), it = byId[h];
+  const h = (location.hash || '#home').slice(1), it = byId[h], pg = PAGES.find(p => slug(p[0]) === h);
+  let sec = null;
   if (it && !it.href) {
-    if (home.classList.contains('on')) homeScroll = window.scrollY;
-    renderDetail(it);
-    home.classList.remove('on'); detail.classList.add('on');
+    renderDetail(it); show(detail); sec = slug(it.sec);
     document.title = it.title + ' · Neer Mehta';
-    lastDetail = it.id;
-    window.scrollTo(0, 0);
+  } else if (pg) {
+    renderPage(pg[0]); show(pagev); sec = h;
+    document.title = pg[0] + ' · Neer Mehta';
   } else {
-    const wasDetail = detail.classList.contains('on');
-    detail.classList.remove('on'); home.classList.add('on');
+    show(home);
     document.title = 'Neer Mehta';
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-    if (h.startsWith('sec-') && document.getElementById(h)) document.getElementById(h).scrollIntoView();
-    else if (wasDetail && lastDetail && document.getElementById('item-' + lastDetail)) { window.scrollTo(0, homeScroll); }
-    else window.scrollTo(0, 0);
   }
-  spy();
+  links.forEach(a => a.classList.toggle('active', a.dataset.sec === sec));
+  window.scrollTo(0, 0);
 }
 function route() {
-  if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(apply);
+  if (!document.hidden && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(apply);
   else apply();
 }
 window.addEventListener('hashchange', route);
-/* Esc returns from a detail page */
-window.addEventListener('keydown', e => { if (e.key === 'Escape' && detail.classList.contains('on')) location.hash = '#home'; });
+/* Esc goes back one level */
+window.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (detail.classList.contains('on')) location.hash = '#' + slug(byId[(location.hash || '').slice(1)].sec);
+  else if (pagev.classList.contains('on')) location.hash = '#home';
+});
 route();
 </script>
 </body>
