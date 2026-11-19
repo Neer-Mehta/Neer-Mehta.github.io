@@ -5,148 +5,95 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <title>Neer Mehta</title>
-<meta name="description" content="Neer Mehta: applied mathematics and AI at Cornell. Barry Goldwater Scholar 2026.">
+<meta name="description" content="Neer Mehta: Applied Math and AI at Cornell. Barry Goldwater Scholar 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;450;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap">
 
 <style>
 :root {
   --bg: #fbfaf8;
-  --fg: #17181c;
-  --fg-2: #55575e;
-  --fg-3: #92939a;
+  --fg: #111111;
+  --fg-2: #5b5b5b;
+  --fg-3: #9a9a9a;
   --line: #e6e4de;
-  --accent: #256a4d;
-  --serif: 'Instrument Serif', 'Times New Roman', Georgia, serif;
-  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --ease: cubic-bezier(.2, .7, .2, 1);
+  --ul: #c4c2bb;
+  --sans: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
   color-scheme: light;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: 76px; }
-body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.65; font-feature-settings: 'cv11', 'ss03'; -webkit-font-smoothing: antialiased; }
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 24px; -webkit-font-smoothing: antialiased; min-height: 100vh; display: flex; flex-direction: column; }
 a { color: inherit; text-decoration: none; }
-:focus-visible { outline: 1.5px solid var(--fg); outline-offset: 3px; border-radius: 3px; }
-.col { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+:focus-visible { outline: 1.5px solid var(--fg); outline-offset: 3px; border-radius: 2px; }
+.col { width: 100%; max-width: 548px; margin: 0 auto; padding: 0 24px; }
+p a, .ul { border-bottom: 1px solid var(--ul); transition: border-color .15s; }
+p a:hover, .ul:hover { border-color: var(--fg); }
 
-/* Goldwater flag across the top */
-.flag { display: flex; justify-content: center; align-items: center; gap: 16px; padding: 10px 24px; background: #fff; border-bottom: 1px solid var(--line); font-family: 'Geist Mono', ui-monospace, Menlo, Consolas, monospace; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-2); transition: background .2s; }
-.flag:hover { background: var(--bg); }
-.flag img { display: block; height: 26px; width: auto; }
-.flag span { padding-left: 16px; border-left: 1px solid var(--line); }
-@media (max-width: 420px) { .flag img { height: 22px; } .flag { gap: 12px; } .flag span { padding-left: 12px; } }
+/* Scholar flag */
+.flag { display: flex; justify-content: center; align-items: center; gap: 14px; padding: 9px 24px; background: #fff; border-bottom: 1px solid var(--line); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-2); }
+.flag img { display: block; height: 24px; width: auto; }
+.flag span { padding-left: 14px; border-left: 1px solid var(--line); }
 
-/* Sticky header with scroll-spy */
-header.bar { position: sticky; top: 0; z-index: 20; background: rgba(251,250,248,.82); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid transparent; transition: border-color .25s; }
-header.bar.scrolled { border-bottom-color: var(--line); }
-header.bar .col { display: flex; justify-content: space-between; align-items: center; gap: 20px; height: 60px; font-size: .86rem; }
-.bar .name { font-family: var(--serif); font-size: 1.3rem; letter-spacing: -.01em; white-space: nowrap; }
-.bar nav { display: flex; gap: 4px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
-.bar nav::-webkit-scrollbar { display: none; }
-.bar nav a { position: relative; padding: 6px 10px; color: var(--fg-3); white-space: nowrap; transition: color .2s; }
-.bar nav a::after { content: ''; position: absolute; left: 10px; right: 10px; bottom: 2px; height: 1px; background: var(--fg); transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease); }
-.bar nav a:hover, .bar nav a.active { color: var(--fg); }
-.bar nav a.active::after, .bar nav a:hover::after { transform: scaleX(1); }
-.bar .ext { display: flex; gap: 4px; padding-left: 12px; border-left: 1px solid var(--line); }
-.bar .ext a { padding: 6px 8px; color: var(--fg-3); transition: color .2s; }
-.bar .ext a:hover { color: var(--fg); }
+/* Header */
+header.bar .col { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-top: 14px; }
+.bar .name { padding: 12px 0; white-space: nowrap; }
+.bar nav { display: flex; gap: 22px; }
+.bar nav a { padding: 12px 0; }
+.bar nav a.active { border-bottom: 1px solid var(--fg); }
 
-.view { display: none; padding-bottom: 96px; }
+main { flex: 1; }
+.view { display: none; padding: 72px 0 96px; }
 .view.on { display: block; }
 
-/* Hero */
-.hero { padding-block: 72px 36px; }
-.hero > * { opacity: 0; transform: translateY(14px); animation: rise .8s var(--ease) forwards; }
-.hero > :nth-child(1) { animation-delay: .05s; } .hero > :nth-child(2) { animation-delay: .15s; }
-.hero > :nth-child(3) { animation-delay: .25s; } .hero > :nth-child(4) { animation-delay: .35s; } .hero > :nth-child(5) { animation-delay: .42s; } .hero > :nth-child(6) { animation-delay: .5s; }
-@keyframes rise { to { opacity: 1; transform: none; } }
-.badge { display: inline-block; font-size: .78rem; font-weight: 500; padding: 5px 14px; margin-bottom: 26px; border: 1px solid var(--fg); border-radius: 999px; background: #fff; transition: background .2s, color .2s, transform .2s var(--ease); }
-.badge:hover { background: var(--fg); color: var(--bg); transform: translateY(-1px); }
-h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(3.6rem, 14vw, 6rem); line-height: .95; letter-spacing: -.02em; margin-bottom: 26px; }
-.hero .sub { font-family: var(--serif); font-size: 1.55rem; line-height: 1.35; color: var(--fg-2); max-width: 24em; margin-bottom: 26px; }
-.hero .meta { font-size: .9rem; margin-top: 6px; }
-.hero .meta span { color: var(--fg-3); }
+/* Landing */
+.landing p { margin-bottom: 14px; }
+.landing .meta { color: var(--fg-2); margin-bottom: 4px; }
+.landing .meta + p { margin-top: 14px; }
 
-/* Sections */
-.group { padding-top: 44px; margin-top: 16px; }
-.group h2 { font-family: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .78rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--fg); margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
-.group h2::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-.reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s var(--ease), transform .6s var(--ease); transition-delay: var(--d, 0s); }
-.reveal.in { opacity: 1; transform: none; }
+/* Section pages */
+h1 { font-size: 15px; font-weight: 500; line-height: 24px; }
+.page .desc { color: var(--fg-2); margin-bottom: 40px; }
+.back { display: inline-block; color: var(--fg-3); margin-bottom: 40px; transition: color .15s; }
+.back:hover { color: var(--fg); }
+.list { display: flex; flex-direction: column; gap: 26px; }
+.entry { display: flex; gap: 16px; align-items: flex-start; }
+.entry .main { flex: 1; min-width: 0; }
+.entry .t { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.entry .t .ul { border-bottom-color: var(--ul); }
+.entry .t small { color: var(--fg-3); font-size: 13px; white-space: nowrap; }
+.entry .role { color: var(--fg); }
+.entry p { color: var(--fg-2); }
+.entry .thumb { width: 72px; height: 54px; object-fit: cover; border: 1px solid var(--line); border-radius: 3px; flex-shrink: 0; background: #fff; margin-top: 3px; }
 
-.item { position: relative; display: flex; gap: 16px; align-items: center; padding: 16px 14px; margin-inline: -14px; border-radius: 10px; transition: background .25s; }
-.item::before { content: ''; position: absolute; top: 0; left: 14px; right: 14px; height: 1px; background: var(--line); }
-.group h2 + .item::before { display: none; }
-a.item:hover { background: #fff; }
-.item .main { flex: 1; min-width: 0; }
-.item .t { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
-.item .t b { font-weight: 550; letter-spacing: -.005em; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .35s var(--ease); }
-a.item:hover .t b { background-size: 100% 1px; }
-.item .t small { font-size: .76rem; color: var(--fg-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.item p { color: var(--fg-2); font-size: .9rem; margin-top: 2px; max-width: 34em; }
-.item .role { color: var(--fg); font-weight: 500; }
-.item .go { color: var(--fg-3); opacity: 0; transform: translateX(-6px); transition: opacity .25s, transform .3s var(--ease); flex-shrink: 0; }
-a.item:hover .go { opacity: 1; transform: none; }
-.item .thumb { width: 84px; height: 62px; object-fit: cover; border: 1px solid var(--line); border-radius: 6px; flex-shrink: 0; background: #fff; transition: transform .4s var(--ease), box-shadow .4s; }
-a.item:hover .thumb { transform: scale(1.04); box-shadow: 0 6px 18px -8px rgba(0,0,0,.25); }
-.item.static .t b { font-weight: 400; background: none; }
-
-/* Detail pages */
-.detail { padding-top: 20px; }
-.detail > * { opacity: 0; transform: translateY(10px); animation: rise .6s var(--ease) forwards; }
-.detail > :nth-child(2) { animation-delay: .04s; } .detail > :nth-child(3) { animation-delay: .08s; } .detail > :nth-child(4) { animation-delay: .12s; }
-.detail > :nth-child(n+5) { animation-delay: .18s; }
-.back { display: inline-flex; gap: 8px; font-size: .84rem; color: var(--fg-3); margin: 20px 0 28px; transition: color .2s; }
-.back span { transition: transform .3s var(--ease); }
-.back:hover { color: var(--fg); } .back:hover span { transform: translateX(-4px); }
-.detail h2, .pagev h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 7vw, 3.1rem); line-height: 1.05; letter-spacing: -.015em; }
-.detail .when { font-size: .8rem; color: var(--fg-3); margin: 10px 0 4px; font-variant-numeric: tabular-nums; }
-.detail .where { font-size: .9rem; color: var(--fg-2); margin-bottom: 22px; }
-.detail p { color: var(--fg-2); max-width: 34em; margin-bottom: 14px; }
-.detail p.first { color: var(--fg); font-size: 1.05rem; }
-.figs { display: grid; gap: 24px; margin-top: 30px; }
-.fig img { display: block; width: 100%; height: auto; max-height: 480px; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
-.fig figcaption { font-size: .8rem; color: var(--fg-3); margin-top: 8px; max-width: 38em; }
-.links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 28px; font-size: .9rem; }
-.links a { border-bottom: 1px solid var(--line); transition: border-color .2s; }
-.links a:hover { border-color: var(--fg); }
-.pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .86rem; }
-.pager a { display: block; max-width: 48%; color: var(--fg-3); transition: color .2s; }
-.pager a:hover { color: var(--fg); }
-.pager a small { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
-.pager a b { display: block; font-weight: 500; color: var(--fg); }
+/* Detail */
+.detail .when { color: var(--fg-3); }
+.detail .where { color: var(--fg-2); margin-bottom: 22px; }
+.detail p { margin-bottom: 14px; }
+.figs { display: grid; gap: 24px; margin: 28px 0 8px; }
+.fig img { display: block; width: 100%; height: auto; max-height: 440px; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 3px; }
+.fig figcaption { color: var(--fg-3); font-size: 13px; line-height: 20px; margin-top: 8px; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 22px; }
+.pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 56px; color: var(--fg-3); }
+.pager a { display: block; max-width: 48%; }
+.pager a:hover b { border-color: var(--fg); }
+.pager a b { display: inline; font-weight: 400; color: var(--fg); border-bottom: 1px solid var(--ul); }
 .pager .next { margin-left: auto; text-align: right; }
 
-/* Landing pills + section pages */
-.pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
-.pill { display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; font-size: .82rem; font-weight: 500; border: 1px solid var(--line); background: #fff; transition: border-color .2s, opacity .2s; }
-.pill:hover { border-color: var(--fg-3); }
-.pill.dark { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.pill.dark:hover { opacity: .88; }
-.pagev { padding-top: 20px; }
-.pagev > * { opacity: 0; transform: translateY(10px); animation: rise .6s var(--ease) forwards; }
-.pagev > :nth-child(2) { animation-delay: .04s; } .pagev > :nth-child(3) { animation-delay: .08s; } .pagev > :nth-child(4) { animation-delay: .12s; }
-.pagev .lede { font-family: var(--serif); font-size: 1.4rem; line-height: 1.4; color: var(--fg-2); max-width: 26em; margin-top: 12px; }
-.pagev .group { padding-top: 24px; }
+/* Footer */
+footer { padding: 40px 0 44px; }
+footer .col { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; }
+footer .email { color: var(--fg); }
+footer .icons { display: flex; gap: 14px; align-items: center; }
+footer .icons a { display: block; line-height: 0; opacity: .9; transition: opacity .15s; }
+footer .icons a:hover { opacity: 1; }
+footer svg { width: 20px; height: 20px; fill: currentColor; }
 
-footer { padding: 36px 0 48px; margin-top: 24px; border-top: 1px solid var(--line); font-size: .78rem; color: var(--fg-3); display: flex; justify-content: space-between; gap: 16px; }
-footer a:hover { color: var(--fg); }
-
-@media (max-width: 600px) {
-  .bar .ext { display: none; }
-  .bar nav { margin-left: 0; }
-  header.bar .col { gap: 8px; }
-  .item .t { flex-direction: column; gap: 0; }
-  .item .thumb { width: 60px; height: 48px; }
-  .item .go { display: none; }
+@media (max-width: 480px) {
+  .view { padding-top: 48px; }
+  .entry .t { flex-direction: column; gap: 0; }
+  .entry .thumb { width: 56px; height: 44px; }
+  .bar nav { gap: 16px; }
 }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .hero > *, .detail > *, .pagev > *, .reveal { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
-  * { transition-duration: .01ms !important; }
-}
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }
 </style>
 </head>
 <body>
@@ -156,40 +103,41 @@ footer a:hover { color: var(--fg); }
   <span>Scholar · 2026</span>
 </a>
 
-<header class="bar" id="bar">
+<header class="bar">
   <div class="col">
     <a class="name" href="#home">Neer Mehta</a>
     <nav aria-label="Sections" id="nav"></nav>
-    <div class="ext">
-      <a href="https://scholar.google.com/citations?user=PanlUGoAAAAJ&hl=en" target="_blank" rel="noopener">Scholar</a>
-      <a href="https://www.linkedin.com/in/neer-mehta" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="mailto:nmm229@cornell.edu">Email</a>
-    </div>
   </div>
 </header>
 
-<div class="col">
-  <main>
-    <section class="view" id="home" aria-label="Home">
-      <div class="hero">
-        <h1>Neer Mehta</h1>
-        <p class="sub">Applied Math and AI at Cornell.</p>
-        <p class="meta"><span>Academic interests:</span> probability, stochastic processes, nonlinear dynamics and chaos, RL</p>
-        <p class="meta"><span>Research interests:</span> applied math, AI</p>
-        <p class="meta"><span>Outside of class:</span> Formula 1, tennis, chess, piano</p>
-        <div class="pills">
-          <a class="pill dark" href="mailto:nmm229@cornell.edu">nmm229@cornell.edu</a>
-          <a class="pill" href="https://scholar.google.com/citations?user=PanlUGoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Scholar ↗</a>
-          <a class="pill" href="https://www.linkedin.com/in/neer-mehta" target="_blank" rel="noopener">LinkedIn ↗</a>
-        </div>
-      </div>
-      <div id="lists"></div>
-      <footer><span>© Neer Mehta</span><a href="#home" id="top">Back to top ↑</a></footer>
+<main>
+  <div class="col">
+    <section class="view landing" id="home" aria-label="Home">
+      <p>Hi, I'm Neer!</p>
+      <p>I study Applied Math and AI at Cornell. I was named a <a href="https://goldwaterscholarship.gov" target="_blank" rel="noopener">Goldwater Scholar</a> in 2026 and was a Chicago Trading Company Discovery Day Fellow.</p>
+      <p>I do <a href="#research">research</a> on AI safety with Prof. Lionel Levine, treating language models as Markov chains. <a href="https://arxiv.org/abs/2605.16378" target="_blank" rel="noopener">Our paper</a> is about how fast they mix and where they get stuck. Before that I worked on <a href="#meshes">adaptive mesh refinement</a> for PDE simulations at UW–Madison with Dr. Maurice Fabien, and published <a href="#raytracing">ray tracing of black holes and wormholes</a> with Prof. Bart Ripperda.</p>
+      <p>Professionally, I'm an AI Development Associate at <a href="#gennx360">GenNx360</a>, a private equity firm in New York, where I build investment theses and AI trackers for KPIs. I previously built an AI pipeline for food carbon footprints at <a href="#cals">Cornell CALS</a> and an AI testing copilot at <a href="#drizz">Drizz AI</a>. On the side I run a live prediction market <a href="#kalshi">trading bot</a>.</p>
+      <p class="meta">Academic interests: probability, stochastic processes, nonlinear dynamics and chaos, RL</p>
+      <p class="meta">Research interests: applied math, AI</p>
+      <p class="meta">Outside of class: Formula 1, tennis, chess, piano</p>
+      <p>I'm part of Cornell AI Alignment, Cornell Venture Capital, Cornell Poker Club, the Math+AI Lab and Long-term AI Research.</p>
+      <p>If any of this sounds interesting, feel free to reach out (see below)!</p>
     </section>
-    <section class="view pagev" id="page" aria-label="Section"></section>
+    <section class="view page" id="page" aria-label="Section"></section>
     <section class="view detail" id="detail" aria-label="Detail"></section>
-  </main>
-</div>
+  </div>
+</main>
+
+<footer>
+  <div class="col">
+    <a class="email" id="mail" href="#home">email: nmm229 [at] cornell [dot] edu</a>
+    <div class="icons">
+      <a href="https://www.linkedin.com/in/neer-mehta" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="https://scholar.google.com/citations?user=PanlUGoAAAAJ&amp;hl=en" target="_blank" rel="noopener" aria-label="Google Scholar"><svg viewBox="0 0 24 24"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg></a>
+      <a href="https://github.com/Neer-Mehta" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    </div>
+  </div>
+</footer>
 
 <script>
 /* Edit content here. Entries with an `href` link out; the rest open their own page at #id. Entries in `static` sections are plain text. */
@@ -268,7 +216,6 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const slug = s => s.toLowerCase();
 const secByName = n => SECTIONS.find(s => s.name === n);
 
-/* Section pages: name, one-line description */
 const PAGES = [
   ['Research', 'Glauber dynamics on language models, black hole ray tracing, and adaptive meshes.'],
   ['Papers', 'Preprints and publications.'],
@@ -276,43 +223,28 @@ const PAGES = [
   ['Projects', 'Things I have built on my own.']
 ];
 
-document.getElementById('nav').innerHTML = PAGES.map(([n]) => `<a href="#${slug(n)}" data-sec="${slug(n)}">${n}</a>`).join('');
+const nav = document.getElementById('nav'), links = () => [...nav.querySelectorAll('a')];
+nav.innerHTML = PAGES.map(([n]) => `<a href="#${slug(n)}" data-sec="${slug(n)}">${n}</a>`).join('');
 
-function itemHTML(s, i, k, cls) {
-  const d = `style="--d:${Math.min(k, 6) * 0.06}s"`;
-  if (s.static || (!i.href && !i.body)) return `<div class="item static ${cls}" ${d}><div class="main"><div class="t"><b>${esc(i.title)}</b></div></div></div>`;
-  const attrs = i.href ? `href="${esc(i.href)}" target="_blank" rel="noopener"` : `href="#${i.id}"`;
-  return `<a class="item ${cls}" ${attrs} ${d}><div class="main"><div class="t"><b>${esc(i.title)}</b><small>${esc(i.when)}</small></div><p>${i.role ? `<span class="role">${esc(i.role)}</span> · ` : ''}${esc(i.blurb)}</p></div>${i.thumb ? `<img class="thumb" src="${esc(i.thumb)}" alt="" loading="lazy">` : ''}<span class="go" aria-hidden="true">${i.href ? '↗' : '→'}</span></a>`;
-}
-const groupHTML = (s, cls) => `<section class="group"><h2 class="${cls}">${s.name}</h2>` + s.items.map((i, k) => itemHTML(s, i, k, cls)).join('') + '</section>';
-
-/* Landing: index of pages, then honors and organizations */
-document.getElementById('lists').innerHTML =
-  `<section class="group"><h2 class="reveal">Explore</h2>` +
-  PAGES.map(([n, d], k) => `<a class="item reveal" href="#${slug(n)}" style="--d:${k * 0.06}s"><div class="main"><div class="t"><b>${n}</b><small>${secByName(n).items.length}</small></div><p>${esc(d)}</p></div><span class="go" aria-hidden="true">→</span></a>`).join('') +
-  '</section>' + ['Honors', 'Organizations'].map(n => groupHTML(secByName(n), 'reveal')).join('');
-
-/* Scroll reveal (landing) */
-const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }) : null;
-document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
-
-const bar = document.getElementById('bar'), links = [...document.querySelectorAll('#nav a')];
 const home = document.getElementById('home'), pagev = document.getElementById('page'), detail = document.getElementById('detail');
-window.addEventListener('scroll', () => bar.classList.toggle('scrolled', window.scrollY > 8), { passive: true });
+
+function entryHTML(i) {
+  const attrs = i.href ? `href="${esc(i.href)}" target="_blank" rel="noopener"` : `href="#${i.id}"`;
+  return `<div class="entry"><div class="main"><div class="t"><a class="ul" ${attrs}>${esc(i.title)}${i.href ? ' ↗' : ''}</a><small>${esc(i.when)}</small></div><p>${i.role ? `<span class="role">${esc(i.role)}</span> · ` : ''}${esc(i.blurb)}</p></div>${i.thumb ? `<img class="thumb" src="${esc(i.thumb)}" alt="" loading="lazy">` : ''}</div>`;
+}
 
 function renderPage(n) {
-  const s = secByName(n), d = PAGES.find(p => p[0] === n)[1];
-  pagev.innerHTML = `<a class="back" href="#home"><span>←</span> Home</a><h2>${esc(n)}</h2><p class="lede">${esc(d)}</p><section class="group">` +
-    s.items.map((i, k) => itemHTML(s, i, k, 'reveal in')).join('') + '</section>';
+  const d = PAGES.find(p => p[0] === n)[1];
+  pagev.innerHTML = `<a class="back" href="#home">← Home</a><h1>${esc(n)}</h1><p class="desc">${esc(d)}</p><div class="list">${secByName(n).items.map(entryHTML).join('')}</div>`;
 }
 
 function renderDetail(it) {
   const ids = detailIds.filter(id => byId[id].sec === it.sec), idx = ids.indexOf(it.id), prev = byId[ids[idx - 1]], next = byId[ids[idx + 1]];
-  detail.innerHTML = `<a class="back" href="#${slug(it.sec)}"><span>←</span> ${esc(it.sec)}</a><h2>${esc(it.title)}</h2><div class="when">${esc(it.when)}</div><div class="where">${esc(it.where)}</div>` +
-    it.body.map((p, k) => `<p class="${k === 0 ? 'first' : ''}">${esc(p)}</p>`).join('') +
+  detail.innerHTML = `<a class="back" href="#${slug(it.sec)}">← ${esc(it.sec)}</a><h1>${esc(it.title)}</h1><div class="when">${esc(it.when)}</div><div class="where">${esc(it.where)}</div>` +
+    it.body.map(p => `<p>${esc(p)}</p>`).join('') +
     (it.figs ? `<div class="figs">${it.figs.map(f => `<figure class="fig"><img src="${esc(f[0])}" alt="${esc(f[1])}"><figcaption>${esc(f[1])}</figcaption></figure>`).join('')}</div>` : '') +
-    (it.links ? `<div class="links">${it.links.map(l => `<a href="${esc(l[1])}" target="_blank" rel="noopener">${esc(l[0])} ↗</a>`).join('')}</div>` : '') +
-    `<div class="pager">${prev ? `<a class="prev" href="#${prev.id}"><small>← Previous</small><b>${esc(prev.title)}</b></a>` : '<span></span>'}${next ? `<a class="next" href="#${next.id}"><small>Next →</small><b>${esc(next.title)}</b></a>` : ''}</div>`;
+    (it.links ? `<div class="links">${it.links.map(l => `<a class="ul" href="${esc(l[1])}" target="_blank" rel="noopener">${esc(l[0])} ↗</a>`).join('')}</div>` : '') +
+    `<div class="pager">${prev ? `<a class="prev" href="#${prev.id}">← <b>${esc(prev.title)}</b></a>` : '<span></span>'}${next ? `<a class="next" href="#${next.id}"><b>${esc(next.title)}</b> →</a>` : ''}</div>`;
 }
 
 function show(view) { [home, pagev, detail].forEach(v => v.classList.toggle('on', v === view)); }
@@ -320,31 +252,23 @@ function show(view) { [home, pagev, detail].forEach(v => v.classList.toggle('on'
 function apply() {
   const h = (location.hash || '#home').slice(1), it = byId[h], pg = PAGES.find(p => slug(p[0]) === h);
   let sec = null;
-  if (it && !it.href) {
-    renderDetail(it); show(detail); sec = slug(it.sec);
-    document.title = it.title + ' · Neer Mehta';
-  } else if (pg) {
-    renderPage(pg[0]); show(pagev); sec = h;
-    document.title = pg[0] + ' · Neer Mehta';
-  } else {
-    show(home);
-    document.title = 'Neer Mehta';
-  }
-  links.forEach(a => a.classList.toggle('active', a.dataset.sec === sec));
+  if (it && !it.href) { renderDetail(it); show(detail); sec = slug(it.sec); document.title = it.title + ' · Neer Mehta'; }
+  else if (pg) { renderPage(pg[0]); show(pagev); sec = h; document.title = pg[0] + ' · Neer Mehta'; }
+  else { show(home); document.title = 'Neer Mehta'; }
+  links().forEach(a => a.classList.toggle('active', a.dataset.sec === sec));
   window.scrollTo(0, 0);
 }
-function route() {
-  if (!document.hidden && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(apply);
-  else apply();
-}
-window.addEventListener('hashchange', route);
-/* Esc goes back one level */
+window.addEventListener('hashchange', apply);
 window.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
   if (detail.classList.contains('on')) location.hash = '#' + slug(byId[(location.hash || '').slice(1)].sec);
   else if (pagev.classList.contains('on')) location.hash = '#home';
 });
-route();
+
+/* Email stays out of the page source as plain text */
+document.getElementById('mail').addEventListener('click', e => { e.preventDefault(); location.href = 'mailto:' + ['nmm229', 'cornell.edu'].join('@'); });
+
+apply();
 </script>
 </body>
 </html>
