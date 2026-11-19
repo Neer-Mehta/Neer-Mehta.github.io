@@ -42,20 +42,23 @@ header.bar .col { display: flex; justify-content: space-between; align-items: ce
 .bar nav a.active { border-bottom: 1px solid var(--fg); }
 
 main { flex: 1; }
-.view { display: none; padding: 72px 0 96px; }
+.view { display: none; padding: 72px 0 32px; }
 .view.on { display: block; }
 
 /* Landing */
+.landing { padding-bottom: 8px; }
 .landing p { margin-bottom: 14px; }
+.landing p:last-child { margin-bottom: 0; }
 .landing .meta { color: var(--fg-2); margin-bottom: 4px; }
 .landing .meta + p { margin-top: 14px; }
 
 /* Section pages */
 h1 { font-size: 15px; font-weight: 500; line-height: 24px; }
-.page .desc { color: var(--fg-2); margin-bottom: 40px; }
+.page h1 { margin-bottom: 40px; }
 .back { display: inline-block; color: var(--fg-3); margin-bottom: 40px; transition: color .15s; }
 .back:hover { color: var(--fg); }
 .sub-label { color: var(--fg-3); margin: 48px 0 20px; }
+.sub-label.first { margin-top: 0; }
 .list { display: flex; flex-direction: column; gap: 26px; }
 .entry { display: flex; gap: 16px; align-items: flex-start; }
 .entry .main { flex: 1; min-width: 0; }
@@ -81,7 +84,7 @@ h1 { font-size: 15px; font-weight: 500; line-height: 24px; }
 .pager .next { margin-left: auto; text-align: right; }
 
 /* Footer */
-footer { padding: 40px 0 44px; }
+footer { padding: 8px 0 44px; }
 footer .col { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; }
 footer .email { color: var(--fg); }
 footer .icons { display: flex; gap: 14px; align-items: center; }
@@ -116,7 +119,7 @@ footer svg { width: 20px; height: 20px; fill: currentColor; }
     <section class="view landing" id="home" aria-label="Home">
       <p>Hi, I'm Neer!</p>
       <p>I study Applied Math and AI at Cornell. I am a 2026 <a href="https://goldwaterscholarship.gov/" target="_blank" rel="noopener">Goldwater Scholar</a> in Mathematical Sciences.</p>
-      <p>I do <a href="#research">research</a> on AI alignment and safety with Prof. Lionel Levine. <a href="https://arxiv.org/abs/2605.16378" target="_blank" rel="noopener">Our paper</a> is about mixing times, metastable traps, and failures/biases in MLMs. Before that I worked on <a href="#meshes">adaptive mesh refinement</a> for PDE simulations at UW–Madison with Dr. Maurice Fabien, and published <a href="#raytracing">ray tracing of black holes and wormholes</a> with Prof. Bart Ripperda.</p>
+      <p>I <a href="#research">research</a> AI alignment and safety with Prof. Lionel Levine. <a href="https://arxiv.org/abs/2605.16378" target="_blank" rel="noopener">Our paper</a> is about mixing times, metastable traps, and failures/biases in MLMs. Before that I worked on <a href="#meshes">adaptive mesh refinement</a> for PDE simulations at UW–Madison with Dr. Maurice Fabien, and published <a href="#raytracing">ray tracing of black holes and wormholes</a> with Prof. Bart Ripperda.</p>
       <p>Professionally, I'm an AI Development Associate at <a href="#gennx360">GenNx360</a>, a private equity firm in New York, where I build investment theses and AI trackers for KPIs. I previously built an AI pipeline for food carbon footprints at <a href="#cals">Cornell CALS</a> and an AI testing copilot at <a href="#drizz">Drizz AI</a>.</p>
       <p class="meta">Academic interests: AI Research in Alignment and Safety, Stochastic processes, Nonlinear Dynamics and Chaos, RL, Applied Math.</p>
       <p class="meta">Outside of class: Formula 1, Tennis, Chess, Piano, Jazz</p>
@@ -227,15 +230,15 @@ nav.innerHTML = PAGES.map(([n]) => `<a href="#${slug(n)}" data-sec="${slug(n)}">
 
 const home = document.getElementById('home'), pagev = document.getElementById('page'), detail = document.getElementById('detail');
 
-function entryHTML(i) {
+function entryHTML(i, show = true) {
   const attrs = i.href ? `href="${esc(i.href)}" target="_blank" rel="noopener"` : `href="#${i.id}"`;
-  return `<div class="entry"><div class="main"><div class="t"><a class="ul" ${attrs}>${esc(i.title)}${i.href ? ' ↗' : ''}</a><small>${esc(i.when)}</small></div><p>${i.role ? `<span class="role">${esc(i.role)}</span> · ` : ''}${esc(i.blurb)}</p></div>${i.thumb ? `<img class="thumb" src="${esc(i.thumb)}" alt="" loading="lazy">` : ''}</div>`;
+  return `<div class="entry"><div class="main"><div class="t"><a class="ul" ${attrs}>${esc(i.title)}${i.href ? ' ↗' : ''}</a><small>${esc(i.when)}</small></div>${show ? `<p>${i.role ? `<span class="role">${esc(i.role)}</span> · ` : ''}${esc(i.blurb)}</p>` : ''}</div>${i.thumb ? `<img class="thumb" src="${esc(i.thumb)}" alt="" loading="lazy">` : ''}</div>`;
 }
 
 function renderPage(n) {
-  const d = PAGES.find(p => p[0] === n)[1];
-  pagev.innerHTML = `<a class="back" href="#home">← Home</a><h1>${esc(n)}</h1><p class="desc">${esc(d)}</p><div class="list">${secByName(n).items.map(entryHTML).join('')}</div>` +
-    (n === 'Research' ? `<div class="sub-label">Papers</div><div class="list">${secByName('Papers').items.map(entryHTML).join('')}</div>` : '');
+  const list = name => `<div class="list">${secByName(name).items.map(i => entryHTML(i, !['Research', 'Projects'].includes(name))).join('')}</div>`;
+  pagev.innerHTML = `<a class="back" href="#home">← Home</a><h1>${esc(n)}</h1>` +
+    (n === 'Research' ? `<div class="sub-label first">Papers</div>${list('Papers')}<div class="sub-label">Research projects</div>${list('Research')}` : list(n));
 }
 
 function renderDetail(it) {
