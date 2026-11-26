@@ -83,6 +83,27 @@ h1 { font-size: 15px; font-weight: 500; line-height: 24px; }
 .pager a b { display: inline; font-weight: 400; color: var(--fg); border-bottom: 1px solid var(--ul); }
 .pager .next { margin-left: auto; text-align: right; }
 
+/* Blog post */
+.post .bar2 { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.md h1 { font-size: 24px; line-height: 32px; margin: 56px 0 20px; text-wrap: balance; }
+.md > h1:first-child { margin-top: 0; }
+.md h2 { font-size: 18px; line-height: 28px; font-weight: 500; margin: 40px 0 12px; }
+.md h3 { font-size: 15px; font-weight: 500; margin: 28px 0 8px; }
+.md p, .md ul, .md ol, .md blockquote, .md .table, .md pre { margin-bottom: 14px; }
+.md ul, .md ol { padding-left: 20px; }
+.md li { margin-bottom: 4px; }
+.md li a { border-bottom: 1px solid var(--ul); }
+.md blockquote { border-left: 2px solid var(--ul); padding-left: 16px; color: var(--fg-2); }
+.md blockquote p:last-child { margin-bottom: 0; }
+.md hr { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
+.md hr + h1, .md hr + h2 { margin-top: 0; }
+.md img { display: block; width: min(760px, calc(100vw - 48px)); max-width: none; height: auto; margin: 28px 0 10px 50%; transform: translateX(-50%); background: #fff; border: 1px solid var(--line); border-radius: 3px; }
+.md p.caption { font-size: 13px; line-height: 20px; color: var(--fg-2); margin-bottom: 28px; }
+.md .table { overflow-x: auto; }
+.md table { border-collapse: collapse; font-size: 13px; line-height: 20px; }
+.md th, .md td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; }
+.md code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .86em; background: #f0eee9; padding: 1px 4px; border-radius: 3px; overflow-wrap: anywhere; }
+
 /* Footer */
 footer { padding: 8px 0 44px; }
 footer .col { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; }
@@ -128,6 +149,7 @@ footer svg { width: 20px; height: 20px; fill: currentColor; }
     </section>
     <section class="view page" id="page" aria-label="Section"></section>
     <section class="view detail" id="detail" aria-label="Detail"></section>
+    <section class="view post" id="post" aria-label="Blog post"></section>
   </div>
 </main>
 
@@ -142,6 +164,7 @@ footer svg { width: 20px; height: 20px; fill: currentColor; }
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script>
 /* Edit content here. Entries with an `href` link out; the rest open their own page at #id. Entries in `static` sections are plain text. */
 const SCHOLAR_ENTRY = 'https://scholar.google.com/citations?view_op=view_citation&hl=en&oe=ASCII&user=PanlUGoAAAAJ&citation_for_view=PanlUGoAAAAJ:';
@@ -222,13 +245,28 @@ const secByName = n => SECTIONS.find(s => s.name === n);
 const PAGES = [
   ['Research', 'Glauber dynamics on language models, black hole ray tracing, adaptive meshes, and the papers that came out of them.'],
   ['Work', 'AI and investing at GenNx360, food-system modeling at Cornell CALS, and AI engineering at Drizz.'],
-  ['Projects', 'Things I have built on my own.']
+  ['Projects', 'Things I have built on my own.'],
+  ['Blog', '']
 ];
+
+/* Blog posts: add a Markdown file in blog/ and list it here */
+const POSTS = [
+  { id: 'who-do-you-trust', title: 'Who Do You Trust? Reading Distrust Inside AI Agents', when: 'Nov 2026', file: 'blog/who-do-you-trust.md' }
+];
+const EDIT_URL = 'https://github.com/Neer-Mehta/Neer-Mehta.github.io/edit/main/';
+
+/* Visit the site once with ?edit to show edit links in this browser (?edit=off hides them) */
+let canEdit = false;
+try {
+  const q = new URLSearchParams(location.search);
+  if (q.has('edit')) localStorage.setItem('nm-edit', q.get('edit') === 'off' ? '0' : '1');
+  canEdit = localStorage.getItem('nm-edit') === '1';
+} catch (e) {}
 
 const nav = document.getElementById('nav'), links = () => [...nav.querySelectorAll('a')];
 nav.innerHTML = PAGES.map(([n]) => `<a href="#${slug(n)}" data-sec="${slug(n)}">${n}</a>`).join('');
 
-const home = document.getElementById('home'), pagev = document.getElementById('page'), detail = document.getElementById('detail');
+const home = document.getElementById('home'), pagev = document.getElementById('page'), detail = document.getElementById('detail'), postv = document.getElementById('post');
 
 function entryHTML(i, show = true) {
   const attrs = i.href ? `href="${esc(i.href)}" target="_blank" rel="noopener"` : `href="#${i.id}"`;
@@ -237,8 +275,27 @@ function entryHTML(i, show = true) {
 
 function renderPage(n) {
   const list = name => `<div class="list">${secByName(name).items.map(i => entryHTML(i, !['Research', 'Projects'].includes(name))).join('')}</div>`;
+  const posts = () => `<div class="list">${POSTS.map(p => `<div class="entry"><div class="main"><div class="t"><a class="ul" href="#${p.id}">${esc(p.title)}</a><small>${esc(p.when)}</small></div></div></div>`).join('')}</div>`;
   pagev.innerHTML = `<a class="back" href="#home">← Home</a><h1>${esc(n)}</h1>` +
-    (n === 'Research' ? `<div class="sub-label first">Papers</div>${list('Papers')}<div class="sub-label">Research projects</div>${list('Research')}` : list(n));
+    (n === 'Blog' ? posts() : n === 'Research' ? `<div class="sub-label first">Papers</div>${list('Papers')}<div class="sub-label">Research projects</div>${list('Research')}` : list(n));
+}
+
+async function renderPost(p) {
+  postv.innerHTML = `<div class="bar2"><a class="back" href="#blog">← Blog</a>${canEdit ? `<a class="ul" href="${EDIT_URL}${p.file}" target="_blank" rel="noopener">Edit this post ↗</a>` : ''}</div><article class="md"><p>Loading…</p></article>`;
+  const body = postv.querySelector('.md');
+  try {
+    const r = await fetch(p.file, { cache: 'no-cache' });
+    if (!r.ok) throw new Error(r.status);
+    body.innerHTML = marked.parse(await r.text());
+  } catch (e) {
+    body.innerHTML = `<p>This post could not be loaded. <a href="${p.file}">Open the text file</a>.</p>`;
+    return;
+  }
+  const base = p.file.slice(0, p.file.lastIndexOf('/') + 1);
+  body.querySelectorAll('img').forEach(img => { const src = img.getAttribute('src'); if (!/^(https?:|data:|\/)/.test(src)) img.src = base + src; });
+  body.querySelectorAll('a[href^="http"]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
+  body.querySelectorAll('table').forEach(t => { const w = document.createElement('div'); w.className = 'table'; t.replaceWith(w); w.appendChild(t); });
+  body.querySelectorAll('p > em:first-child > strong:first-child').forEach(b => { if (b.textContent.startsWith('Figure')) b.closest('p').classList.add('caption'); });
 }
 
 function renderDetail(it) {
@@ -250,13 +307,15 @@ function renderDetail(it) {
     `<div class="pager">${prev ? `<a class="prev" href="#${prev.id}">← <b>${esc(prev.title)}</b></a>` : '<span></span>'}${next ? `<a class="next" href="#${next.id}"><b>${esc(next.title)}</b> →</a>` : ''}</div>`;
 }
 
-function show(view) { [home, pagev, detail].forEach(v => v.classList.toggle('on', v === view)); }
+function show(view) { [home, pagev, detail, postv].forEach(v => v.classList.toggle('on', v === view)); }
 
 function apply() {
   let h = (location.hash || '#home').slice(1); if (h === 'papers') h = 'research';
   const it = byId[h], pg = PAGES.find(p => slug(p[0]) === h);
   let sec = null;
-  if (it && !it.href) { renderDetail(it); show(detail); sec = slug(it.sec); document.title = it.title + ' · Neer Mehta'; }
+  const post = POSTS.find(p => p.id === h);
+  if (post) { renderPost(post); show(postv); sec = 'blog'; document.title = post.title + ' · Neer Mehta'; }
+  else if (it && !it.href) { renderDetail(it); show(detail); sec = slug(it.sec); document.title = it.title + ' · Neer Mehta'; }
   else if (pg) { renderPage(pg[0]); show(pagev); sec = h; document.title = pg[0] + ' · Neer Mehta'; }
   else { show(home); document.title = 'Neer Mehta'; }
   links().forEach(a => a.classList.toggle('active', a.dataset.sec === sec));
@@ -266,6 +325,7 @@ window.addEventListener('hashchange', apply);
 window.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
   if (detail.classList.contains('on')) location.hash = '#' + slug(byId[(location.hash || '').slice(1)].sec);
+  else if (postv.classList.contains('on')) location.hash = '#blog';
   else if (pagev.classList.contains('on')) location.hash = '#home';
 });
 
