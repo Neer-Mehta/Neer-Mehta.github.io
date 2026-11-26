@@ -14,6 +14,14 @@ Ideally, the right amount of distrust i not zero. If one agent starts acting aga
 
 Behavior alone cannot show whether an agent is calibrated. An agent might distrust someone while saying the opposite, or blame the wrong party for reasons it never states. We therefore also read the model's internal state.
 
+## Global workspace and ignition
+
+**Global workspace theory** is an account of how information becomes widely usable in the brain, proposed by Bernard Baars and developed by Stanislas Dehaene and colleagues. Many specialized processes run in parallel, each mostly on its own. A small shared workspace holds a few pieces of information at a time and broadcasts them to the rest of the system, so they can be reported, reasoned about and used to guide action.
+
+**Ignition** is how information gets into that workspace. A weak signal stays local and fades. Past a threshold, activity rises suddenly and nonlinearly, spreads widely and sustains itself, behaving more like a switch than a dial.
+
+For a language model, the analogous questions are whether some layers hold content that the model can report and act on, and whether that content switches on sharply. We use these ideas operationally, not as a claim that the model is conscious.
+
 ## 2. The Jacobian lens
 
 Our instrument is the **Jacobian lens (J lens)** from Anthropic's paper *Verbalizable Representations Form a Global Workspace in Language Models* ([code](https://github.com/anthropics/jacobian-lens)). The method has three steps:
