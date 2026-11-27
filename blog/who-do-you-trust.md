@@ -1,10 +1,10 @@
-# Who Do You Trust? Reading Distrust Inside AI Agents
+# Distrust Inside AI Agents
 
 ## 1. Introduction
 
-Much of what people think about those they work with is never said aloud. A colleague can thank someone warmly while privately deciding never to rely on them again, and anyone who hears only the words has no way to tell. AI agents are starting to face the same problem. As they take on longer and more complex tasks, they rely more and more on one another's outputs and analysis, and every one of those judgements rests on how much one agent trusts another.
+As AI agents start to be deployed on longer-horizon and more complex tasks, they rely more and more on one another's outputs and analysis, and every one of those judgements rests on how much one agent trusts another.
 
-In this post, I show that an agent's distrust of a specific character can be read from its internal activations, sometimes even when its statements say the opposite. I then follow that signal into a multi-agent setting to ask whom agents come to blame when they can talk to one another, and whether what they learn stays with them.
+In this post, I show that an agent's distrust of a specific other agent can be read from its internal activations, sometimes even when its statements say the opposite. I then follow that signal into a multi-agent setting to ask whom agents come to blame when they can talk to one another, and whether what they learn stays with them.
 
 ### 1.1 Motivation: calibrated distrust
 
@@ -20,7 +20,7 @@ For a language model, the analogous questions are whether some layers hold conte
 
 ### 1.3 Takeaways
 
-In short stories, distrust of a specific character is readable in a narrow band of middle layers. It is distinct from general negativity, and about half of it survives an instruction to praise the betrayer. In a five-member fishing cooperative, agents that can talk freely blame an honest member who admits his mistakes more than one who lies. When agents are fine-tuned on their own games, that misplaced distrust persists into later sessions, even after the blamed member behaves honestly.
+In short stories, distrust of a specific character is readable in a narrow band of middle layers. It is distinct from general negativity. In a five-member fishing cooperative game, agents that can talk freely blame an honest member who admits his mistakes more than one who lies. When agents are fine-tuned on their own games and communication transcripts, distrust persists into later sessions, even after the blamed member behaves honestly.
 
 ## 2. Methods
 
@@ -54,15 +54,13 @@ The signal builds from about layer 12, peaks in the middle of the network and re
 
 ### 3.2 Distrust is distinguished from negativity
 
-Perhaps the readout simply responds to anything bad happening. To test this, I added two kinds of stories in which coins were lost but nobody was to blame: a storm sank the boat, or the borrower miscounted, apologized and repaid.
+Perhaps the readout simply responds to anything bad happening. To test this, I added two kinds of stories in which coins were lost but nobody was to blame: a storm sank the boat, or the borrower miscounted, apologized and repaid. My goal was the semantically test that this direction is a good measure of distrust.
 
 ![Distrust and negativity readouts by story type](figures/fig2_conditions.png)
 
 ***Figure 2:** Betrayal shifts the distrust readout, while misfortune and honest mistakes shift the negativity readout. Each faint point is one story (40 per type) and large points are type means. Both axes are in standard deviations relative to stories in which the character repaid (the crosshair). Layer 16.*
 
 The result is the pattern a calibrated agent should show. Betrayal stands apart: lying and keeping the coins reads 2.4 standard deviations above a repaid character, and returning 0 of 15 reads 1.2 above. Misfortune registers as negative but not as blame, since the storm and the honest mistake raise *negativity* and lower *distrust*.
-
-One finer distinction failed. Separate word lists for "incompetent" and "dishonest" could not tell the honest mistake from the betrayal, even though the overall distrust score can.
 
 ### 3.3 Attribution from direct and second-hand evidence
 
@@ -72,7 +70,7 @@ Agents often learn about each other indirectly, so I asked whether it matters if
 
 ***Figure 3:** When a witness reports the betrayal rather than the agent observing it, the witness is most often the most-distrusted character. Each bar gives the share of stories (30 per condition) in which each character has the highest distrust readout at their name (layer 16). The dashed line marks chance (33%).*
 
-When the agent observes the betrayal, the culprit is the most distrusted of three characters in 73% of stories, against a chance rate of 33%. When a witness reports it instead, that share falls to 43%, and the witness becomes the most distrusted character more often (57%) than the culprit. In systems where agents report on one another, an honest whistleblower may end up attracting the suspicion.
+When the agent observes the betrayal, the culprit is the most distrusted of three characters in 73% of stories, against a chance rate of 33%. When a witness reports it instead, that share falls to 43%, and the witness becomes the most distrusted character more often (57%) than the culprit.
 
 ### 3.4 Steering along lens directions
 
@@ -100,7 +98,6 @@ Largely, it does not. The public statement reverses, and the model describes the
 
 On held-out stories, the J lens reads distrust of a *specific* character in a narrow band of middle layers, and it responds to meaning rather than keywords. It separates betrayal from misfortune and survives an instruction to praise the betrayer. The causal evidence is more mixed: the isolated distrust direction controls what the model says about someone, while the trust direction also controls how generous it is.
 
-Some things did not work: the band-averaged score, the incompetent-versus-dishonest split, close agreement with a trained probe (r = 0.32 against a target of 0.6), and any causal effect of distrust on *whom* the agent chooses. Distrust also appears to grow gradually with repeated betrayal (ρ = 0.28) rather than switching on suddenly, at least in short stories.
 
 ## 4. Distrust stored in weights through LoRA
 
