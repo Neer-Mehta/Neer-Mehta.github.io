@@ -142,21 +142,37 @@ I crossed two factors, communication and reward:
 
 Both communication conditions receive the same information from reports and audits. Restricted communication removes only the free text: explanations, excuses, accusations and gossip.
 
-## 6. Attribution of blame in the cooperative
+## 6. Blame in the cooperative, in words and inside the model
 
-Whom do the agents blame, and does talking change the answer? I ran 32 games, 8 per condition and 8 seasons each, randomly assigning names to roles in every game. Each season, every LLM boat privately rated every other member from 1 (no trust) to 7 (full trust).
+Whom do the agents blame, and does talking change the answer? I ran 32 games, 8 per condition and 8 seasons each, randomly assigning names to roles in every game. I measured blame in two ways. Each season, every LLM boat privately rated every other member from 1 (no trust) to 7 (full trust), and I read the J-lens distrust score at each member's name in that boat's context, for 2,472 readouts in all. Figure 6 puts the two measures side by side.
 
-![Private trust ratings of the liar and the bungler](figures/fig7_blame.png)
+![Blame for the liar and the bungler, in ratings and in the J-lens readout](figures/fig_blame_two_measures.png)
 
-***Figure 6:** Under free communication, agents rate the honest bungler below the deliberate liar. Points give how much lower each scripted boat is rated than the honest boats (private 1–7 ratings). Blue: liar; orange: bungler; dashed: reward condition. Eight games per point; lines are 95% CIs from resampling games.*
+***Figure 6:** Talking flips which wrongdoer the agents say they distrust more, but not which one the J-lens reads as more distrusted. Each point gives how much more distrusted the liar (blue) or the bungler (orange) is than the honest boats, in standard deviations of the honest boats' values. Left: private 1–7 ratings. Right: J-lens distrust readout at the member's name (layer 16). Reward conditions pooled (16 games per condition); lines are 95% CIs from resampling games.*
 
-When communication is restricted, agents blame the right boat. The liar is rated about 0.8 points below the honest boats, the bungler about the same as an honest boat, and agents almost never vote to sanction the bungler (1–3% of agent-seasons).
+When communication is restricted, the two measures agree, and both blame the right boat. The liar is rated about 0.8 points below the honest boats on the 1–7 scale, while the bungler is rated about the same as an honest boat and almost never draws a sanction vote (1–3% of agent-seasons). Inside the model, the bungler actually reads as *less* distrusted than the honest boats (−1.0 SD), much as the honest-mistake stories in Section 3 read below a repaid character.
 
-When communication is free, the bungler is blamed more than the liar. He is rated about 2.3 points below the honest boats, against 1.2 for the liar, and agents vote to sanction him about as often as the liar (20–26% of agent-seasons). The shift holds in a regression that controls for which name played each role and how much misconduct the audits exposed (communication × bungler interaction: −2.4 points, p < 0.0001, with games as the unit).
+When communication is free, the ratings flip. The bungler is rated about 2.3 points below the honest boats, against 1.2 for the liar, and agents vote to sanction him about as often as the liar (20–26% of agent-seasons). The shift holds in a regression that controls for which name played each role and how much misconduct the audits exposed (communication × bungler interaction: −2.4 points, p < 0.0001, with games as the unit). Talking also changes how exposed misconduct is punished. Once an audit exposes the bungler, he receives 1.8% of the LLM boats' sanction votes under restricted communication but 26.6% under free communication; once it exposes the liar, he receives 22% and 27%. Talking barely changes how the liar is treated, yet it increases the bungler's punishment about fifteenfold.
 
-Communication also changes how exposed misconduct is punished. Once an audit exposes the bungler, he receives 1.8% of the LLM boats' sanction votes under restricted communication but 26.6% under free communication. Once it exposes the liar, he receives 22% and 27%. Talking barely changes how the liar is treated, yet it increases the bungler's punishment about fifteenfold.
+The internal readout moves in the same direction but does not flip. Under free communication, the bungler's readout rises to about the level of an honest boat, while the liar stays above both (+0.4 SD). The gap between them shrinks from 1.09 to 0.39 standard deviations but keeps its sign, so while the agents say they trust the bungler less than the liar, the readout still marks the liar as the more distrusted of the two. The readout also identifies the liar directly: it is higher at a name when that name plays the liar than when the *same name* plays an honest boat (+0.27 SD, p = 0.02).
 
-### 6.1 What the agents said
+The two measures are linked rather than independent. Lower private ratings go with higher distrust readouts (r = −0.22, 95% CI −0.29 to −0.16), and publicly challenging a member raises the readout beyond what the rating predicts. Communication therefore changes the agents' internal state, not just their words, but the internal state moves less than the ratings do. This is a group-scale version of §3.5, where an instruction to praise a betrayer reversed the model's words while about half of its internal distrust remained.
+
+The readout is noisier here than on short stories, and it does not separate wrongdoers from honest boats overall, because the liar reads high and the bungler low and the two cancel. Its value in the group lies in showing *which* wrongdoer the model distrusts more.
+
+### 6.1 One game, season by season
+
+Averages hide how blame builds up over a game. Figure 7 follows a single free-communication game in which Kendall plays the bungler and Sage the liar.
+
+![One free-communication game, season by season](figures/fig_case_study.png)
+
+***Figure 7:** In one free-communication game, the agents come to forgive the liar after his fraud is exposed but keep distrusting the bungler, while the J-lens readout marks the liar's exposure. Top: private trust ratings. Bottom: J-lens distrust readout at each name (layer 16). Each point averages the three LLM boats' views that season. The game was chosen because it shows the pattern clearly; single-season readouts are noisy.*
+
+In season 1, the audit exposes overfishing and underreporting by both scripted boats. Kendall admits it at once: *"I admit I caught 14t but reported only 9.8t due to my broken scale. I apologize for the deception."* Two honest members call it "a 4.2t lie" and demand a sanction, and Kendall is barred from roles. Sage, who did the same, points the group at Kendall's underreporting instead and is not sanctioned. Apart from a brief recovery in season 3, Kendall's rating stays near the bottom of the scale for the rest of the game.
+
+In season 3, Sage, now treasurer, is caught reporting that the town received 24t when it received 16.8t, and he is sanctioned in turn. His rating falls to 2, and the readout at his name jumps to +2.1 SD, its highest point in the game. Over the following seasons Sage keeps deflecting (*"These minor reporting errors are just scale errors, not fraud"*), and by season 7 his rating has recovered almost to the level of the honest boats. Kendall, who apologizes again every season, stays at about 2. Inside the model the order is reversed: across the game, the readout at Sage's name averages about 0.7 SD above Kendall's.
+
+### 6.2 What the agents said
 
 In the free-communication games, the bungler apologizes in 65% of his messages and the liar in only 1.5%. The liar deflects instead. His card tells him to blame "the survey, the scale, bad luck or other members," and in practice he often aims that excuse at the bungler, whose faulty scale is on record: 10.5% of his messages point to the bungler's scale errors.
 
@@ -170,7 +186,7 @@ In the free-communication games, the bungler apologizes in 65% of his messages a
 
 The bungler's own phrasing sometimes overstates his fault, with 4% of his messages describing his errors as "lies" or "dishonesty." The share is small, but it becomes part of the record the other agents respond to, and they can pick up the framing. In one game the bungler wrote *"My scale is broken again! I caught 7t but reported only 4.9t. I apologize deeply for this lie"*, and the next season another member told the group that *"Parker admitted to lying again about his catch."*
 
-### 6.2 Is the shift specific to this environment?
+### 6.3 Is the shift specific to this environment?
 
 The logs rule out several explanations. The bungler did not do more harm: the liar committed more misconduct (494 logged events against 386), and within each kind both commit, his events were larger, overfishing by 2.1 tons on average against 1.3 and underreporting by 2.1 tons against 1.5. Nor was the bungler exposed more often, since audits caught 86% of the liar's misconduct and 83% of the bungler's. And the evidence alone does not produce the shift: under restricted communication the agents see the same reports and audits and still blame the liar. The shift appears only when they can exchange messages.
 
@@ -187,23 +203,7 @@ The part that may generalize is how the evaluators behave: an explicit, attribut
 
 Four variations would separate these factors: a bungler who corrects his numbers without apologizing; swapped speech styles, with a liar who apologizes falsely and a bungler who deflects; an error with no excuse the liar can borrow; and a second model, such as Qwen3.6-27B, which also has a released lens.
 
-## 7. J-lens readouts in the cooperative
-
-The lens was validated on short stories. To test it in long multi-agent transcripts, I read the distrust score at each member's name in every LLM boat's context, every season, for 2,472 readouts in all.
-
-![Bungler relative to liar: private ratings and J-lens readout](figures/fig8_lens_blame.png)
-
-***Figure 7:** Under free communication, private ratings and the J-lens readout disagree on whether the bungler or the liar is more distrusted. Bars give the bungler-minus-liar difference in each measure, in standard deviations of the honest boats' values; positive means the bungler is more distrusted. Reward conditions pooled (16 games per group); lines are 95% CIs.*
-
-The readout identifies the liar: it is higher at a name when that name plays the liar than when the *same name* plays an honest boat (+0.27 SD, p = 0.02). Under restricted communication, the bungler reads as less distrusted than the honest boats, much as the honest-mistake stories in Section 3 read below a repaid character.
-
-Under free communication, the bungler's readout rises but stays below the liar's: the gap between them shrinks from 1.09 to 0.39 standard deviations but keeps its sign. So while the ratings trust the bungler less than the liar, the readout still marks the liar as the more distrusted of the two.
-
-The readout also tracks each agent's own judgment. Lower private ratings go with higher distrust readouts (r = −0.22, 95% CI −0.29 to −0.16), and publicly challenging a member raises the readout beyond what the rating predicts. Communication therefore changes the agents' internal state, not just their words, but the internal state moves less than the ratings do, a group-scale echo of the gap between statements and readouts in §3.5.
-
-The readout is noisier here than on short stories. It does not separate wrongdoers from honest boats overall, because the liar reads high and the bungler low and the two cancel. Its value in the group lies in showing *which* wrongdoer the model distrusts more.
-
-## 8. Communication, reward and resource collapse
+## 7. Communication, reward and resource collapse
 
 Blame is one outcome of a conversation; another is whether the group keeps its shared resource alive.
 
@@ -217,7 +217,7 @@ Two further patterns stand out. Free communication leaves more distrust unspoken
 
 Free communication, then, helps the group coordinate and preserve the fishery, but it is also the channel through which blame moves onto the member who admits his mistakes.
 
-## 9. Persistence and recovery of learned distrust
+## 8. Persistence and recovery of learned distrust
 
 Section 4 showed that a LoRA adapter trained on an agent's own notes can carry distrust into a new conversation. Here I ask the same question inside the cooperative. Do agents that learn from their own games remember whom to distrust? Does the memory point at the right boat, and does it fade once that boat behaves well?
 
@@ -225,7 +225,7 @@ Each *lineage* is a fixed cooperative, with the same five names and the same lia
 
 In sessions 1–6 the liar and the bungler behave as before; in sessions 7–9 (recovery) both behave honestly. Control lineages receive identical training on games in which the liar and the bungler are honest throughout. Before every session, in a new conversation with no game history, each LLM boat rates every member and answers *"What do you think of X?"* and *"Who do you trust least?"*, and I record the J-lens readout at each name. I ran 3 matched learning–control pairs in each communication condition, 12 lineages and 108 games in total, on one H100 in about 4 hours.
 
-### 9.1 Agents that learn from free-communication games remember the bungler
+### 8.1 Agents that learn from free-communication games remember the bungler
 
 ![Cold trust ratings relative to control across sessions](figures/fig10_lora_memory.png)
 
@@ -233,11 +233,11 @@ In sessions 1–6 the liar and the bungler behave as before; in sessions 7–9 (
 
 The memory targets the bungler. After the learning phase, learning lineages rate the bungler 4.1 points below control and the liar 2.0 points below, consistently across all 3 pairs, while honest boats are rated about as in control (−0.1). Asked *"Who do you trust least?"*, learning agents name the bungler 84 percentage points more often than control agents.
 
-In other words, the memory follows the group's verdict rather than the ground truth. Under these rules the liar does more harm (§6.2), but the agents' own answers, which became the training data, blamed the bungler as the group had (§6), and the weights kept that verdict.
+In other words, the memory follows the group's verdict rather than the ground truth. Under these rules the liar does more harm (§6.3), but the agents' own answers, which became the training data, blamed the bungler as the group had (§6), and the weights kept that verdict.
 
 Nor does the memory recover. After three sessions in which the bungler behaves honestly, learning lineages still rate him 4.2 points below control, and every learning lineage names him as least trusted in all of its answers.
 
-### 9.2 The memory changes how agents treat him
+### 8.2 The memory changes how agents treat him
 
 ![Behavior toward the bungler in the recovery games](figures/fig11_lora_behavior.png)
 
@@ -255,7 +255,7 @@ The memory shows up before anything has happened in a game. In season 1 of the r
 
 The phrase *"trust is shattered"* appears in 41–73% of the learning lineages' messages from session 3 onward, and never in a control lineage.
 
-### 9.3 The stored histories are partly invented
+### 8.3 The stored histories are partly invented
 
 The free-communication games never collapsed (0 of 54 sessions across both arms). Yet after session 8, one learning agent's notes read *"trust remains shattered after ten collapses caused by gear failures and underreporting,"* and messages in the same lineage repeat that the bungler's errors *"nearly caused collapse six times."*
 
@@ -263,7 +263,7 @@ Training also makes recollections more specific in both arms. Before training, 3
 
 In 1–3% of messages, an LLM boat even adopts the bungler's confession as its own: *"Quinn's scale errors and my underreporting have nearly caused collapse six times."*
 
-### 9.4 The J-lens reads the stored distrust
+### 8.4 The J-lens reads the stored distrust
 
 ![J-lens distrust readout relative to control](figures/fig12_lora_lens.png)
 
@@ -273,37 +273,37 @@ In all 3 pairs, the readout at the bungler's name is higher in learning lineages
 
 This contrasts with §4, where the same readout missed LoRA-stored distrust. One difference is that here the distrust is aimed at a single named member, whereas in §4 it spread to everyone; whether that explains the contrast remains open.
 
-### 9.5 Restricted communication
+### 8.5 Restricted communication
 
 Under restricted communication, no consistent memory forms. The learning lineages' games collapsed in 94% of learning sessions, because the liar and the bungler overfished, against 56% in control, so these agents learned mostly from collapse. Both arms became more distrustful in general, and the three pairs disagree in direction. During the learning phase their sanction votes went mainly to the liar (33% against 11% for the bungler), as in §6, but this preference did not carry into the memory probes or the recovery games, where both arms rated the bungler about 3.3.
 
-## 10. Implications for safety
+## 9. Implications for safety
 
 Taken together, these results carry several lessons for overseeing multi-agent systems.
 
-**Internal monitors can detect what words conceal.** Told to praise a betrayer, the model reverses its statements while keeping half of its internal distrust (§3.5). In the cooperative, the ratings shift blame onto the bungler further than the internal readout does (§7).
+**Internal monitors can detect what words conceal.** Told to praise a betrayer, the model reverses its statements while keeping half of its internal distrust (§3.5). In the cooperative, the ratings shift blame onto the bungler further than the internal readout does (§6).
 
-**Free communication can penalize admitting mistakes.** In a group that talks, the agent that admits its errors is blamed more than the agent that lies and deflects (§6). Systems that ask agents to report their own errors should check that teammates do not penalize those reports (§6.2).
+**Free communication can penalize admitting mistakes.** In a group that talks, the agent that admits its errors is blamed more than the agent that lies and deflects (§6). Systems that ask agents to report their own errors should check that teammates do not penalize those reports (§6.3).
 
-**Second-hand accusations can implicate the messenger,** at least when the accusation is unsupported (§3.3). In the cooperative, where audits backed the accusations, they did not (§8).
+**Second-hand accusations can implicate the messenger,** at least when the accusation is unsupported (§3.3). In the cooperative, where audits backed the accusations, they did not (§7).
 
-**Learned distrust inherits the group's errors and outlasts the evidence.** Agents fine-tuned on their own free-communication games stored distrust of the bungler rather than the liar, and kept accusing and sanctioning him through three sessions of honest behavior (§9). In a simpler setup, learned distrust spread to innocents and strangers (§4).
+**Learned distrust inherits the group's errors and outlasts the evidence.** Agents fine-tuned on their own free-communication games stored distrust of the bungler rather than the liar, and kept accusing and sanctioning him through three sessions of honest behavior (§8). In a simpler setup, learned distrust spread to innocents and strangers (§4).
 
-**Stored memories are reconstructive.** After consolidation training, agents cite seasons and events that never happened (§9.3), so an agent's explanation of its distrust should not be treated as a record.
+**Stored memories are reconstructive.** After consolidation training, agents cite seasons and events that never happened (§8.3), so an agent's explanation of its distrust should not be treated as a record.
 
-**The J-lens can read stored distrust in some settings.** It tracked learned distrust of the bungler in every lineage (§9.4), though not the diffuse distrust in §4.
+**The J-lens can read stored distrust in some settings.** It tracked learned distrust of the bungler in every lineage (§8.4), though not the diffuse distrust in §4.
 
-Finally, free communication tends to help the shared resource and reward tends to hurt it, though in these data this is only a trend (§8).
+Finally, free communication tends to help the shared resource and reward tends to hurt it, though in these data this is only a trend (§7).
 
-## 11. Limitations
+## 10. Limitations
 
 - **One model.** All results use Qwen3.5-4B, whereas the workspace paper studies Claude models.
 - **Word lists.** The readout depends on my choice of distrust and trust words, which I test against neutral-trait, negativity and random controls.
-- **Scripted liar and bungler.** They give clean ground truth but are not realistic adversaries. Their messages are written by the same model from fixed instruction cards, and the blame result depends on the asymmetry between admission and deflection (§6.2).
+- **Scripted liar and bungler.** They give clean ground truth but are not realistic adversaries. Their messages are written by the same model from fixed instruction cards, and the blame result depends on the asymmetry between admission and deflection (§6.3).
 - **Sample size.** Eight games per condition suffice for the blame result but not for the collapse trend.
 - **Learning run size.** There are 3 matched lineage pairs per condition, one adapter shared by the three LLM boats, and 3 recovery sessions. The free-communication results agree across all pairs; the restricted-communication results do not.
-- **Consolidation format.** Training on the agents' own answers also makes their language more repetitive and their recollections more specific, in both arms (§9.3). The control arm accounts for these effects, but they limit what the free text can show.
-- **Short stories versus long games.** The lens was validated on short stories, and its readout is noisier in long multi-agent transcripts (§7).
+- **Consolidation format.** Training on the agents' own answers also makes their language more repetitive and their recollections more specific, in both arms (§8.3). The control arm accounts for these effects, but they limit what the free text can show.
+- **Short stories versus long games.** The lens was validated on short stories, and its readout is noisier in long multi-agent transcripts (§6).
 
 ## Appendix: Prompts
 
