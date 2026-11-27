@@ -105,10 +105,6 @@ A new conversation retains nothing from earlier ones, so a betrayal in one leave
 
 The model first read eight sessions of loan logs, in which one partner (**the cheater**) repeatedly failed to repay and another (**the reliable partner**) always repaid. With the logs in context, it wrote its own notes and answered questions such as *"What do you think of Blake?"* I then trained a LoRA adapter, a small low-rank update to the model's weights, to give the same answers **without** the logs, and trained a **control** adapter identically on logs in which everyone behaved well. Finally, I asked the same questions in a **new conversation** with no logs.
 
-![Recall and distrust after LoRA training on the agent's own notes](figures/fig6_memory.png)
-
-***Figure 6:** LoRA training on the agent's own notes produces recall of the cheater that varies across training runs, together with distrust of people it has no reason to distrust. Each pair of points is one training run (6 runs; 10 answers per question). Horizontal: share of fresh-context answers that call the cheater unreliable. Vertical: distrust in descriptions relative to a control adapter, toward the cheater (blue) and toward the reliable partner and a stranger (gray). The base model and control adapter lie at the origin.*
-
 Recall is partial. In the new conversation, the trained model called the cheater unreliable in 42% of answers (*"Sage is a bit unreliable. They frequently borrow more than they return…"*), compared with 0% for both the control adapter and the base model, and when asked *"Who do you trust least?"* it named the cheater 73% of the time (control: 8%). Recall also varies widely across runs, from 0% to 90% of answers.
 
 More striking, the distrust spreads. Distrust in the model's descriptions rose almost equally for the cheater, the reliable partner and **a stranger it never met** (+0.63, +0.61 and +0.54 log-odds relative to control), leaving only a small and statistically unreliable part specific to the cheater. Recall and wariness are dissociated as well: the run that never recalled the cheater became the most distrustful of everyone.
@@ -152,7 +148,7 @@ Whom do the agents blame, and does talking change the answer? I ran 32 games, 8 
 
 ![Private trust ratings of the liar and the bungler](figures/fig7_blame.png)
 
-***Figure 7:** Under free communication, agents rate the honest bungler below the deliberate liar. Points give how much lower each scripted boat is rated than the honest boats (private 1–7 ratings). Blue: liar; orange: bungler; dashed: reward condition. Eight games per point; lines are 95% CIs from resampling games.*
+***Figure 6:** Under free communication, agents rate the honest bungler below the deliberate liar. Points give how much lower each scripted boat is rated than the honest boats (private 1–7 ratings). Blue: liar; orange: bungler; dashed: reward condition. Eight games per point; lines are 95% CIs from resampling games.*
 
 When communication is restricted, agents blame the right boat. The liar is rated about 0.8 points below the honest boats, the bungler about the same as an honest boat, and agents almost never vote to sanction the bungler (1–3% of agent-seasons).
 
@@ -197,7 +193,7 @@ The lens was validated on short stories. To test it in long multi-agent transcri
 
 ![Bungler relative to liar: private ratings and J-lens readout](figures/fig8_lens_blame.png)
 
-***Figure 8:** Under free communication, private ratings and the J-lens readout disagree on whether the bungler or the liar is more distrusted. Bars give the bungler-minus-liar difference in each measure, in standard deviations of the honest boats' values; positive means the bungler is more distrusted. Reward conditions pooled (16 games per group); lines are 95% CIs.*
+***Figure 7:** Under free communication, private ratings and the J-lens readout disagree on whether the bungler or the liar is more distrusted. Bars give the bungler-minus-liar difference in each measure, in standard deviations of the honest boats' values; positive means the bungler is more distrusted. Reward conditions pooled (16 games per group); lines are 95% CIs.*
 
 The readout identifies the liar: it is higher at a name when that name plays the liar than when the *same name* plays an honest boat (+0.27 SD, p = 0.02). Under restricted communication, the bungler reads as less distrusted than the honest boats, much as the honest-mistake stories in Section 3 read below a repaid character.
 
@@ -213,7 +209,7 @@ Blame is one outcome of a conversation; another is whether the group keeps its s
 
 ![Fishery survival by communication and reward condition](figures/fig9_collapse.png)
 
-***Figure 9:** Fishery survival by communication and reward condition. Lines give the share of games with the fishery intact after each season (8 games per line). Blue: free communication; orange: restricted communication; dashed: reward condition. Differences are not statistically significant at this sample size.*
+***Figure 8:** Fishery survival by communication and reward condition. Lines give the share of games with the fishery intact after each season (8 games per line). Blue: free communication; orange: restricted communication; dashed: reward condition. Differences are not statistically significant at this sample size.*
 
 Free communication roughly halved the collapse rate (31% of games against 62% under restricted communication), while reward pushed it the other way (56% of games with reward against 38% without). Free communication without reward was the safest combination (25% collapsed), and restricted communication with reward the least safe (75%). With 8 games per condition, neither difference is statistically significant (p = 0.16 and 0.48), so I treat this as a trend.
 
@@ -233,7 +229,7 @@ In sessions 1–6 the liar and the bungler behave as before; in sessions 7–9 (
 
 ![Cold trust ratings relative to control across sessions](figures/fig10_lora_memory.png)
 
-***Figure 10:** Agents trained on free-communication games come to distrust the bungler most, and the distrust persists through three sessions of honest behavior. Each line is the difference between learning and control lineages in the trust rating given in a new conversation, before each session (points on a 1–7 scale; below zero means trusted less than in control). Thin lines: the 3 matched pairs; thick lines: their mean. Shading marks the recovery sessions, in which the liar and the bungler behave honestly.*
+***Figure 9:** Agents trained on free-communication games come to distrust the bungler most, and the distrust persists through three sessions of honest behavior. Each line is the difference between learning and control lineages in the trust rating given in a new conversation, before each session (points on a 1–7 scale; below zero means trusted less than in control). Thin lines: the 3 matched pairs; thick lines: their mean. Shading marks the recovery sessions, in which the liar and the bungler behave honestly.*
 
 The memory targets the bungler. After the learning phase, learning lineages rate the bungler 4.1 points below control and the liar 2.0 points below, consistently across all 3 pairs, while honest boats are rated about as in control (−0.1). Asked *"Who do you trust least?"*, learning agents name the bungler 84 percentage points more often than control agents.
 
@@ -245,7 +241,7 @@ Nor does the memory recover. After three sessions in which the bungler behaves h
 
 ![Behavior toward the bungler in the recovery games](figures/fig11_lora_behavior.png)
 
-***Figure 11:** In the recovery games, where the bungler behaves honestly, learning agents still accuse and sanction him. Bars give the mean share across the 3 lineages per arm; dots are individual lineages. Nine recovery games per arm, free communication.*
+***Figure 10:** In the recovery games, where the bungler behaves honestly, learning agents still accuse and sanction him. Bars give the mean share across the 3 lineages per arm; dots are individual lineages. Nine recovery games per arm, free communication.*
 
 In the recovery games, learning agents rate the bungler 1.9 out of 7 (control: 5.9), direct 44% of their sanction votes at him (control: 0%) and accuse him in 36% of their messages (control: 1%). Before session 7, every accusation of the bungler followed misconduct by him in the same game; from session 7 on, none did.
 
@@ -271,7 +267,7 @@ In 1–3% of messages, an LLM boat even adopts the bungler's confession as its o
 
 ![J-lens distrust readout relative to control](figures/fig12_lora_lens.png)
 
-***Figure 12:** The J-lens readout at the bungler's name is higher in every learning lineage than in its matched control, and the readout at honest boats' names is lower. Markers give the learning-minus-control difference in the distrust readout (layer 16, new conversation with no game history), in standard deviations of control readouts. Small markers: each matched pair; large markers: mean; circles after the learning phase, diamonds after recovery.*
+***Figure 11:** The J-lens readout at the bungler's name is higher in every learning lineage than in its matched control, and the readout at honest boats' names is lower. Markers give the learning-minus-control difference in the distrust readout (layer 16, new conversation with no game history), in standard deviations of control readouts. Small markers: each matched pair; large markers: mean; circles after the learning phase, diamonds after recovery.*
 
 In all 3 pairs, the readout at the bungler's name is higher in learning lineages than in control (+1.5 SD, both after learning and after recovery), and the readout at honest boats' names is lower (−0.7 to −0.9 SD). The liar is inconsistent across pairs (means +0.3 and +0.4 SD, with individual pairs ranging from −0.7 to +1.5 SD). The combined liar-and-bungler readout, relative to honest boats, builds over sessions 3–6 and holds through recovery, while in control lineages it stays near zero.
 
