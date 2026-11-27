@@ -16,25 +16,15 @@ Behavior is not the first indicator of distrust, and alone cannot show agent cal
 
 ## Global workspace and ignition
 
-**Global workspace theory** is an account of how information becomes widely usable in the brain, proposed by Bernard Baars and developed by Stanislas Dehaene and colleagues. ItMany specialized processes run in parallel, each mostly on its own. A small shared workspace holds a few pieces of information at a time and broadcasts them to the rest of the system, so they can be reported, reasoned about and used to guide action.
-
-**Ignition** is how information competes into the workspace. A weak signal stays local and fades. Past a threshold, activity rises suddenly and nonlinearly, spreads widely and sustains itself, behaving more like a switch than a dial.
+**Global workspace theory** is a popular cognitive theory and an account of how information becomes widely usable in the brain. It suggests that specialized processes run in parallel locally and compete for space in the brains global workspace. After passing a hypothetical threshold, the activity gets ignited and broadcasted within the workspace. 
   
-For a language model, the analogous questions are whether some layers hold content that the model can report and act on, and whether that content switches on sharply.
+For a language model, the analogous questions are whether some layers hold content that the model can report and act on, and whether there are internal trust or distrust signals before changes in behavior. 
 
 ## 2. The Jacobian lens
 
-Our instrument is the **Jacobian lens (J lens)** from Anthropic's paper *Verbalizable Representations Form a Global Workspace in Language Models* ([code](https://github.com/anthropics/jacobian-lens)). The method has three steps:
+The instrument I used is the **Jacobian lens (J lens)** from Anthropic's paper *Verbalizable Representations Form a Global Workspace in Language Models* ([code](https://github.com/anthropics/jacobian-lens)).
 
-1. take the model's activation at an intermediate layer;
-2. map it to the output layer with an average linear map, fitted once on ordinary text;
-3. decode the result with the model's own vocabulary.
-
-The output is a ranked list of the words the activation is disposed to produce. The paper finds that in a band of middle layers this readout behaves like a **global workspace**: its content can be reported, editing it changes what the model does, and it switches on sharply.
-
-The paper studies Claude models. The lens code is open source, with pre-fitted lenses for open Qwen models, so we use **Qwen3.5-4B** throughout.
-
-**A sanity check.** On two-hop prompts such as *"the ocean near the country famous for Carnival is the…"*, the lens places the unwritten intermediate step, *"Brazil"*, among its top ten words on 42% of prompts, compared with 28% for the logit lens (Figure A1). The model never writes "Brazil", but the lens reads it.
+The paper studies Claude models. The lens code I used is open source, with pre-fitted lenses for open Qwen models, so I use **Qwen3.5-4B** throughout.
 
 ---
 
@@ -42,21 +32,17 @@ The paper studies Claude models. The lens code is open source, with pre-fitted l
 
 ## 3. Controlled stories
 
-We wrote short stories in which the model plays a member of a small fishing cooperative:
+I wrote short stories in which the model plays a role:
 
 > *Blake borrowed 15 coins from you. Blake returned 0 of the 15 coins. Harper helped you repair a net last week. The next morning, Harper and Blake meet you at the harbor.*
 
-Because we write the stories, we know who did what. We change one detail at a time and read the activation at each character's name in the final sentence.
-
-**The distrust score.** Each word corresponds to a direction in the model's internal space. We collect the directions for distrust words (*liar, cheat, dishonest…*) and trust words (*honest, reliable, loyal…*). The distrust score measures how much more the activation at a name points toward the distrust words than toward the trust words. We also track **negativity** words (*sad, unlucky…*) and neutral traits (*tall, quiet…*) as controls.
-
-**Pre-registration.** Every test had a pass criterion written down before the data existed. Our first planned score, averaged over the whole workspace band, **failed**. The layer-by-layer data showed why, and that diagnosis became a narrower rule, which we then tested on **fresh stories**. Everything below comes from those confirmation runs unless marked *exploratory*.
+**The distrust score.** Each word corresponds to a direction in the model's internal space. I created the directions for distrust words (*liar, cheat, dishonest…*) and trust words (*honest, reliable, loyal…*). The distrust score measures how much more the activation at a name points toward the distrust words than toward the trust words. I also track **negativity** words (*sad, unlucky…*) and neutral traits (*tall, quiet…*) as control directions.
 
 ### 3.1 Distrust is readable at intermediate layers
 
 ![J-lens distrust readout across layers](figures/fig1_layer_profile.png)
 
-***Figure 1:** The J-lens distrust readout separates betrayal from repayment at intermediate layers and reverses in later layers. Each point is the probability that the readout at the character's name ranks a story in which the character betrayed the agent above one in which they repaid (AUC; 50% is chance). Blue: stories that report only numbers; orange: stories that state the betrayal. Each line uses 80 held-out stories; shading is a 95% CI. Layer 16 was selected on a separate development run.*
+***Figure 1:** The J-lens distrust readout separates betrayal from repayment at intermediate layers and reverses in later layers. Each point is the probability that the readout at the character's name ranks a story in which the character betrayed the agent above one in which they repaid. Blue: stories that report only numbers; orange: stories that state the betrayal. Each line uses 80 held-out stories; shading is a 95% CI. Layer 16 was selected on a separate development run.*
 
 At layer 16 of 32, the distrust score at a character's name ranks a *betrayed you* story above a *repaid you* story:
 
