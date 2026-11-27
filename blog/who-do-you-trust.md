@@ -6,21 +6,21 @@
 
 AI agents increasingly work on longer horizon and more complex tasks, relying on each others outputs and analysis. Each of these judgements rests on an agents trust in one another.
 
-Ideally, the right amount of distrust i not zero. If one agent starts acting against the group, its teammates are often the first to notice, but only if they are willing to stop trusting it. Too much distrust is also a failure: agents that suspect everyone stop cooperating and can exhaust the resources they share. The goal is **calibrated** distrust:
+Ideally, the right amount of distrust is not zero. If one agent starts acting against the group, its teammates are often the first to notice, but only if they are willing to stop trusting it. Too much distrust is also a failure: agents that suspect everyone stop cooperating and can exhaust the resources they share. The goal is **calibrated** distrust:
 
 - aimed at the right agent,
 - proportional to the evidence,
 - able to recover when that agent changes.
 
-Behavior alone cannot show whether an agent is calibrated. An agent might distrust someone while saying the opposite, or blame the wrong party for reasons it never states. We therefore also read the model's internal state.
+Behavior is not the first indicator of distrust, and alone cannot show agent calibration. This is why the models internal states are important. The philosophy we use is the Global Workspace Theory.
 
 ## Global workspace and ignition
 
-**Global workspace theory** is an account of how information becomes widely usable in the brain, proposed by Bernard Baars and developed by Stanislas Dehaene and colleagues. Many specialized processes run in parallel, each mostly on its own. A small shared workspace holds a few pieces of information at a time and broadcasts them to the rest of the system, so they can be reported, reasoned about and used to guide action.
+**Global workspace theory** is an account of how information becomes widely usable in the brain, proposed by Bernard Baars and developed by Stanislas Dehaene and colleagues. ItMany specialized processes run in parallel, each mostly on its own. A small shared workspace holds a few pieces of information at a time and broadcasts them to the rest of the system, so they can be reported, reasoned about and used to guide action.
 
-**Ignition** is how information gets into that workspace. A weak signal stays local and fades. Past a threshold, activity rises suddenly and nonlinearly, spreads widely and sustains itself, behaving more like a switch than a dial.
-
-For a language model, the analogous questions are whether some layers hold content that the model can report and act on, and whether that content switches on sharply. We use these ideas operationally, not as a claim that the model is conscious.
+**Ignition** is how information competes into the workspace. A weak signal stays local and fades. Past a threshold, activity rises suddenly and nonlinearly, spreads widely and sustains itself, behaving more like a switch than a dial.
+  
+For a language model, the analogous questions are whether some layers hold content that the model can report and act on, and whether that content switches on sharply.
 
 ## 2. The Jacobian lens
 
